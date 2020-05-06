@@ -79,7 +79,7 @@ app.put('/upload/:tipo/:id', (req, res) => {
 
     // movemos el archivo a algun lugar de la aplicacion en este caso a la carpeta 
     // uploads
-    console.log(nombreArchivo);
+    // console.log(archivo);
     const destino = path.join(__dirname, `../uploads/${ tipo }/${ nombreArchivo }`)
     archivo.mv(destino, (err) => {
         if (err) {
@@ -134,11 +134,16 @@ function imagenVendedor(id, res, nombreArchivo) {
             await cloudinary.v2.uploader.destroy(vendedorBD.idImg);
         }
 
-        // console.log(archivo);
+        console.log('nombre', nombreArchivo);
+        try {
+            const result = await cloudinary.v2.uploader.upload(`uploads/vendedores/${ nombreArchivo }`);
+            vendedorBD.img = result.url;
+            vendedorBD.idImg = result.public_id;
 
-        const result = await cloudinary.v2.uploader.upload(`uploads/vendedores/${ nombreArchivo }`)
-        vendedorBD.img = result.url;
-        vendedorBD.idImg = result.public_id;
+        } catch (error) {
+            console.log(error);
+        }
+
         borraArchivo(vendedorBD.img, 'vendedores')
         vendedorBD.save((err, vendedorGuardado) => {
             res.json({
@@ -181,7 +186,6 @@ function imagenAnuncio(id, res, nombreArchivo) {
             anuncioBD.save();
 
             crearImages(result, id, res)
-
 
         } catch (error) {
             console.log(error);
