@@ -27,7 +27,7 @@
 
  const bodyParser = require('body-parser');
 
- app.use(express.static(path.join(__dirname, 'bin')));
+ app.use(express.static(path.join(__dirname, './bin')));
 
  // parse application/x-www-form-urlencoded
  app.use(bodyParser.urlencoded({ extended: false }))
@@ -38,7 +38,7 @@
  app.use(require('./Server/Routes/index'));
 
  app.get('*', (req, res) => {
-     res.sendFile(path.join(__dirname, 'bin/index.html'));
+     res.sendFile(path.join(__dirname, './bin/index.html'));
  });
 
  mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true },
