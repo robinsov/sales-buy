@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="nombreVendedor">
+    <a class="navbar-brand" [routerLink]="['/perfil', id]">
+        <img *ngIf="img" [src]="img | imagen: 'vendedores'" width="30" height="30">
+    </a>
+    <div class="container">
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" RouterLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/anuncios', 'nav']">Anuncios <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" RouterLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/anuncio', 'add']">
+                        <i class="fa folder-plus"></i> Añadir Anuncio
+                    </a>
+                </li>
+                <li class="nav-item" RouterLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/misAnuncios']">
+                        <i class="fa folder-plus"></i> Mis anuncios
+                    </a>
+                </li>
+
+                <li class="nav-item" RouterLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/categorias']">
+                        <i class="fa folder-plus"></i> Categorias
+                    </a>
+                </li>
+
+                <li class="nav-item" RouterLinkActive="active">
+                    <a class="nav-link pointer" (click)="perfil()">
+                        <i class="fa fa-user"></i> Hola {{nombreVendedor}}
+                    </a>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-right">
+                    <button class="btn btn-success" (click)="logout()">
+                        <i class="fa fa-sign-out-alt"></i>
+                        Cerrar Session
+                    </button>
+                </li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input [(ngModel)]="termino" name="termino" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" (keyup.enter)="search()">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" [routerLink]="['/anuncios', 'search', termino]">Search</button>
+            </form>
+        </div>
+
+    </div>
+</nav>

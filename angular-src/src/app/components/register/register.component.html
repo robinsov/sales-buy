@@ -1,0 +1,31 @@
+<div class="sidenav">
+    <div class="login-main-text">
+        <h2>
+            Tienda App<br /> Pagina de Registro
+        </h2>
+        <p>Si ya estas registrado ve a login</p>
+        <p>Una vez haya ingresado a la tienda, complete el registro en el apartado de su perfil para que tus anuncios queden con todos los datos y asi los demás compradores sepan como contactarte</p>
+        <button type="submit" class="btn btn-primary" routerLink="/login">Login</button>
+    </div>
+</div>
+<div class="main">
+    <div class="col-md-6 col-sm-12">
+        <div class="login-form">
+            <form ngNativeValidate #f="ngForm" (ngSubmit)="registrar(f)">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" [(ngModel)]="nombre" name="email" class="form-control" placeholder="Nombre" required />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" [(ngModel)]="email" name="email" class="form-control" placeholder="Digita aquí tu correo" required />
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Contraseña" required />
+                </div>
+                <button type="submit" class="btn btn-secondary">Registrarse</button>
+            </form>
+        </div>
+    </div>
+</div>

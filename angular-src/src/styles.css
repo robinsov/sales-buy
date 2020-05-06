@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+
+.font-med {
+    font-size: 30px;
+}
+
+.font-med2 {
+    font-size: 20px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.file-over {
+    border: dotted 3px dodgerblue;
+}
+
+.drop-zone {
+    border: dotted 3px lightgray;
+    opacity: 0.5;
+    color: #666;
+    text-align: center;
+}
+
+.text-green {
+    color: green;
+}
+
+.table {
+    margin-top: 30px;
+}
+
+.responsive {
+    width: 100%;
+    height: auto;
+}

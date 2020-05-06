@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-md-6 offset-md-2">
+        <div class="card d-flex justify-content-between align-items-center" *ngIf="vendedor">
+            <div class="card-body">
+                <form ngNativeValidate #f="ngForm" (ngSubmit)="actualizar()">
+                    <div class="form-group">
+                        <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" class="card-img-top" />
+                        <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" class="card-img-top" />
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" autofocus [(ngModel)]="vendedor.nombre" type="text" name="nombre" required />
+                    </div>
+                    <div class="form-group">
+                        <input disabled class="form-control" [(ngModel)]="vendedor.email" type="email" name="email" required />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" [(ngModel)]="vendedor.telefono" type="text" name="telefono" placeholder="Telefono para contactar" required />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" [(ngModel)]="vendedor.ciudad" name="ciudad" placeholder="Ciudad" required />
+                    </div>
+                    <div class="form-group">
+                        <input [disabled]="bImg" #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" required/>
+                    </div>
+                    <div class="form-group">
+                        <button *ngIf="vendedor.img" (click)="bImg = !bImg" type="button" class="btn btn-outline-warning btn-block">
+              <i class="fa fa-save"></i>
+              Actualizar imagen tambien
+            </button>
+                    </div>
+                    <div class="card-footer bg-transparent border-success text-center">
+                        {{ vendedor.fechaSubs | date }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block">
+            <i class="fa fa-save"></i>
+            Actualizar
+          </button>
+
+                    <hr>
+
+                    <button type="button" [routerLink]="['/anuncios', 'nav']" class="btn btn-danger btn-block">
+            <i class="fa fa-back"></i>
+            Cancelar
+          </button>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

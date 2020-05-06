@@ -1,0 +1,58 @@
+<div class="row p-4">
+    <div class="col" *ngIf="anuncio">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                {{ anuncio.tituloAnuncio }}
+            </div>
+
+
+            <div class="card-body">
+                <h1 class="card-title text-center">{{ anuncio.tituloAnuncio }}</h1>
+                <label class="badge badge-secondary font-med">Descripcion:</label>
+                <p class="card-text font-med2">{{ anuncio.descripcion }}</p>
+                <p class="card-text font-med2">
+                    Precio: {{ anuncio.precioUni | currency }}
+                </p>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Datos del vendedor</h2>
+                        <hr />
+                        <p class="card-text font-med2">
+                            Nombre: {{ anuncio.vendedor["nombre"] }}
+                        </p>
+                        <p class="card-text font-med2">
+                            Correo: {{ anuncio.vendedor["email"] }}
+                        </p>
+                        <p class="card-text font-med2">
+                            Ciudad: {{ anuncio.vendedor["ciudad"] }}
+                        </p>
+                        <p class="card-text font-med2">
+                            Número de contacto: {{ anuncio.vendedor["telefono"] }}
+                        </p>
+                    </div>
+                </div>
+
+                <button [routerLink]="['/anuncios', 'nav']" class="btn btn-primary btn-block">
+          <i class="fa fa-step-backward"></i>
+          Regresar
+        </button>
+            </div>
+            <div class="card-footer bg-transparent border-success">
+                {{ anuncio.fechaAnuncio | date }}
+            </div>
+        </div>
+        <div>
+            <h2 class="text-center">Imagenes del anuncio</h2>
+        </div>
+
+        <ngb-carousel>
+            <ng-template ngbSlide *ngFor="let image of images">
+                <div class="picsum-img-wrapper">
+                    <img [src]="image.picture" class="responsive">
+                </div>
+            </ng-template>
+        </ngb-carousel>
+
+    </div>
+</div>
