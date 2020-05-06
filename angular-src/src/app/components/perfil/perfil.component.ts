@@ -52,9 +52,11 @@ export class PerfilComponent implements OnInit {
 
     this._vendedorService.updateVendedor(newVendedor).subscribe( async resp => {
       console.log(resp);
+      console.log(this.bImg);
       this._loginService.img.emit( await resp.img);
       if(this.bImg === false){
         this.updateImagen( await resp._id, 'vendedores', this.vendedor.img );
+        console.log(this.vendedor.img);
       }
 
        this.router.navigate(['/anuncios', 'nav']);

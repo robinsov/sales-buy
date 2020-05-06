@@ -144,7 +144,7 @@ function imagenVendedor(id, res, nombreArchivo) {
             console.log(error);
         }
 
-        borraArchivo(vendedorBD.img, 'vendedores')
+        borraArchivo(nombreArchivo, 'vendedores')
         vendedorBD.save((err, vendedorGuardado) => {
             res.json({
                 ok: true,
@@ -191,7 +191,7 @@ function imagenAnuncio(id, res, nombreArchivo) {
             console.log(error);
         }
 
-        borraArchivo(archivo, 'anuncios')
+        borraArchivo(nombreArchivo, 'anuncios')
 
     });
 }
@@ -232,7 +232,7 @@ function borraArchivo(nombreImagen, tipo) {
     // rsolvemos haciendo uso de fs (file system) y path que permite 
     // saber si existe ya una imagen en la ruta especificada de ser asi 
     // se elimina la que ya existe y se reemplaza por la nueva
-    let pathImagen = path.resolve(__dirname, `../../uploads/${tipo}/${ nombreImagen }`);
+    let pathImagen = path.resolve(__dirname, `../uploads/${tipo}/${ nombreImagen }`);
     if (fs.existsSync(pathImagen)) {
         fs.unlinkSync(pathImagen);
     }

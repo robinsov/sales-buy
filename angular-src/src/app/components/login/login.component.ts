@@ -22,9 +22,7 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-     if(localStorage.getItem('email')){
-       this.email = localStorage.getItem('email');
-     }
+ 
   }
 
   login(form: NgForm){

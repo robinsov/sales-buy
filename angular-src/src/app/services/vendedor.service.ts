@@ -15,26 +15,28 @@ export class VendedorService {
 
 
   getVendedor(id: string){
-    return this.http.get(`/vendedor/${id}`).pipe( map( (resp:any) => {
+    return this.http.get(`${environment.API_URI}/vendedor/${id}`).pipe( map( (resp:any) => {
       return resp.vendedorBD;
     }));
   }
 
 
   updateVendedor(vendedor: Vendedor){
-    return this.http.put(`/vendedor/${vendedor._id}`, vendedor )
+    return this.http.put(`${environment.API_URI}/vendedor/${vendedor._id}`, vendedor )
     .pipe( map ((resp:any) => {
       return resp.vendedorBD;
     }))
   }
 
   updateImage(id:string, tipo:string, imagen: File ){
+
     const formData = new FormData();
     formData.append('archivo', imagen, imagen.name);
-    return this.http.put(`/upload/${tipo}/${id}`, formData )
+
+    return this.http.put(`${environment.API_URI}/upload/${tipo}/${id}`, formData )
     .pipe( map ( (resp:any)=> {
       console.log(resp);
-      return resp.resp
+      return resp.resp 
     }))
   }
 

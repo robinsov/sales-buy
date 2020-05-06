@@ -23,23 +23,23 @@ export class AnunciosService {
               private _loginService: LoginService) { }
 
   getAnuncios(){
-    return this.http.get(`/anuncio`).pipe( map ((resp:any) => {
+    return this.http.get(`${environment.API_URI}/anuncio`).pipe( map ((resp:any) => {
       return resp.anuncios;
     }));
   }
   
   getAnuncio(id: string){
-    return this.http.get(`/anuncio/${id}`);
+    return this.http.get(`${environment.API_URI}/anuncio/${id}`);
   }
 
 
   getMisAnuncios(id:string){
-    return this.http.get(`/misAnuncios/${id}`)
+    return this.http.get(`${environment.API_URI}/misAnuncios/${id}`)
   }
   
   createAnuncio(anuncio: Anuncio ){
     
-    return this.http.post(`/anuncio`, anuncio, {headers: this.httpHeaders} )
+    return this.http.post(`${environment.API_URI}/anuncio`, anuncio, {headers: this.httpHeaders} )
     .pipe( map ((resp:any) => {
       return resp.anuncioBD
     }))
@@ -49,7 +49,7 @@ export class AnunciosService {
     const formData = new FormData();
     formData.append('archivo', imagen, imagen.name);
 
-    return this.http.put(`/upload/${tipo}/${id}`, formData )
+    return this.http.put(`${environment.API_URI}/upload/${tipo}/${id}`, formData )
     .pipe( map ( (resp:any)=> {
       return resp.imageBD;
     }))
@@ -57,19 +57,19 @@ export class AnunciosService {
   
   updateAnuncio(anuncio: any, id:string){
 
-    return this.http.put(`/anuncio/${id}`, anuncio)
+    return this.http.put(`${environment.API_URI}/anuncio/${id}`, anuncio)
     .pipe( map ((resp:any) => {
       return resp.anuncioBD
     }))
   }
   
   deleteAnuncio(id: string){
-    return this.http.delete(`/anuncio/${id}`);
+    return this.http.delete(`${environment.API_URI}/anuncio/${id}`);
   }
 
   getImage(imagen: string){
     // localhost:3000/image/anuncios/5ea8c7c3723fe74328011308-302.png?token=
-    return this.http.get(`/image/anuncios/${imagen}?token=${localStorage.getItem('token')}`);
+    return this.http.get(`${environment.API_URI}/image/anuncios/${imagen}?token=${localStorage.getItem('token')}`);
   }
 
   // getImages(idAnuncio: string){
@@ -80,25 +80,25 @@ export class AnunciosService {
   // }
 
   getImages(idAnuncio: string){
-    return this.http.get(`/image/${idAnuncio}`).pipe( map ( (resp:any) => {
+    return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).pipe( map ( (resp:any) => {
       return resp.imagesAnuncio;
     }))
   }
 
   deleteImage(id:string){
-    return this.http.delete(`/image/${id}`).pipe( map ((resp:any) => {
+    return this.http.delete(`${environment.API_URI}/image/${id}`).pipe( map ((resp:any) => {
       return resp.imageBDBorrada;
     })) ;
   }
 
   getAnunciosPorCategorias(id:string){
-    return this.http.get(`/anunciosCategorias/${id}`);
+    return this.http.get(`${environment.API_URI}/anunciosCategorias/${id}`);
     
   }
 
 
   getAnunciosPorTermino(termino:string){
-    return this.http.get(`/anuncios/${termino}`);
+    return this.http.get(`${environment.API_URI}/anuncios/${termino}`);
   }
 
 }

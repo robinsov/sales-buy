@@ -16,25 +16,29 @@ export class LoginService {
 
   nombrelisto = new EventEmitter<any>();
 
+  tokenListo = new EventEmitter<any>();
+
   img = new EventEmitter;
 
   constructor(private http: HttpClient,
               private router : Router) { 
-    if(localStorage.getItem('token')){
-      this.token = localStorage.getItem('token');
-    }
+              if(localStorage.getItem('token')){
+                this.token = localStorage.getItem('token');
+              }
+              
   }
 
   login(vendedor: Vendedor){
-    return this.http.post(`/login`, vendedor).pipe( map ((resp:any) => {
+    return this.http.post(`${environment.API_URI}/login`, vendedor).pipe( map ((resp:any) => {
       localStorage.setItem('vendedor', resp.vendedor.nombre);
       this.nombrelisto.emit(resp.vendedor.nombre);
+      this.tokenListo.emit(resp.token);
       return resp;
     }));
   }
 
   registrar(vendedor: Vendedor){
-    return this.http.post(`/vendedor`, vendedor);
+    return this.http.post(`${environment.API_URI}/vendedor`, vendedor);
   }
 
   logout(){

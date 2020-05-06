@@ -12,7 +12,7 @@ export class CategoriasService {
   constructor(private http: HttpClient) { }
 
   getCategorias(){
-    return this.http.get(`/categoria`).pipe( map ((resp:any) => {
+    return this.http.get(`${environment.API_URI}/categoria`).pipe( map ((resp:any) => {
       return resp.categorias;
     }));
   }
