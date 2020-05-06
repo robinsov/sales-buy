@@ -80,7 +80,7 @@ app.put('/upload/:tipo/:id', (req, res) => {
     // movemos el archivo a algun lugar de la aplicacion en este caso a la carpeta 
     // uploads
     // console.log(archivo);
-    const destino = path.join(__dirname, `../uploads/${ tipo }/${ nombreArchivo }`)
+    const destino = path.resolve(__dirname, `../uploads/${ tipo }/${ nombreArchivo }`)
     archivo.mv(destino, (err) => {
         if (err) {
             return res.status(500).json({
