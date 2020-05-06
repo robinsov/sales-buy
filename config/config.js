@@ -18,19 +18,19 @@ process.env.CLOUDINARY_APY_SECRET = 'aHfpzsAd2hw8cZwK7vMcaEk7Dyg';
 //==============================
 // entorno
 //==============================
-//process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
+process.env.NODE_ENV = process.env.NODE_ENV || 'prod';
 
 //==============================
 // BASE DA DATOS
 //==============================
 let urlDB;
 
-// if (process.env.NODE_ENV === 'dev') {
-//     urlDB = 'mongodb://localhost/tienda';
-// } else {
-// }
+if (process.env.NODE_ENV === 'dev') {
+    urlDB = 'mongodb://localhost/tienda';
+} else {
+    urlDB = process.env.MONGODB_URI;
+}
 
-urlDB = process.env.MONGODB_URI;
 //==============================
 // VENCIMIENTO DEL TOKEN
 //==============================
