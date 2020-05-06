@@ -80,32 +80,32 @@ app.put('/upload/:tipo/:id', (req, res) => {
     // movemos el archivo a algun lugar de la aplicacion en este caso a la carpeta 
     // uploads
     console.log(nombreArchivo);
-    archivo.mv(`uploads/${ tipo }/${ nombreArchivo }`, (err) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err: {
-                    message: 'archivo no se puede mover'
-                }
-            });
-        }
-    });
+    // archivo.mv(`uploads/${ tipo }/${ nombreArchivo }`, (err) => {
+    //     if (err) {
+    //         return res.status(500).json({
+    //             ok: false,
+    //             err: {
+    //                 message: 'archivo no se puede mover'
+    //             }
+    //         });
+    //     }
+    // });
 
-    console.log(`uploads/${ tipo }/${ nombreArchivo }`);
+    // console.log(`uploads/${ tipo }/${ nombreArchivo }`);
 
 
     //aqui ya la imagen esta cargada
     if (tipo === 'vendedores') {
-        imagenVendedor(id, res, nombreArchivo);
+        imagenVendedor(id, res, archivo);
     } else {
-        imagenAnuncio(id, res, nombreArchivo);
+        imagenAnuncio(id, res, archivo);
     }
 
 
 });
 
 
-function imagenVendedor(id, res, nombreArchivo) {
+function imagenVendedor(id, res, archivo) {
     Vendedor.findById(id, async(err, vendedorBD) => {
         if (err) {
 
@@ -134,10 +134,10 @@ function imagenVendedor(id, res, nombreArchivo) {
         }
 
 
-        const result = await cloudinary.v2.uploader.upload(`uploads/vendedores/${ nombreArchivo }`)
+        const result = await cloudinary.v2.uploader.upload(archivo)
         vendedorBD.img = result.url;
         vendedorBD.idImg = result.public_id;
-        borraArchivo(vendedorBD.img, 'vendedores')
+        // borraArchivo(vendedorBD.img, 'vendedores')
         vendedorBD.save((err, vendedorGuardado) => {
             res.json({
                 ok: true,
@@ -149,7 +149,7 @@ function imagenVendedor(id, res, nombreArchivo) {
 }
 
 
-function imagenAnuncio(id, res, nombreArchivo) {
+function imagenAnuncio(id, res, archivo) {
 
 
     Anuncio.findById(id, async(err, anuncioBD) => {
@@ -185,7 +185,7 @@ function imagenAnuncio(id, res, nombreArchivo) {
             console.log(error);
         }
 
-        borraArchivo(nombreArchivo, 'anuncios')
+        // borraArchivo(archivo, 'anuncios')
 
     });
 }
