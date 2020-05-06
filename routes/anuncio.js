@@ -6,7 +6,7 @@ const _ = require("underscore");
 
 let Anuncio = require("../models/anuncio");
 
-let { verificaToken } = require("../Server/middlewares/autenticacion");
+let { verificaToken } = require("../middlewares/autenticacion");
 
 const cloudinary = require("cloudinary");
 

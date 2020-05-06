@@ -1,4 +1,4 @@
- require('./Server/config/config');
+ require('./config/config');
 
  //importar variables de entorno
  //require('dotenv').config({ path: 'variables.env' });
