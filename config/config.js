@@ -18,7 +18,7 @@ process.env.CLOUDINARY_APY_SECRET = 'aHfpzsAd2hw8cZwK7vMcaEk7Dyg';
 //==============================
 // entorno
 //==============================
-process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
+//process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
 //==============================
 // BASE DA DATOS

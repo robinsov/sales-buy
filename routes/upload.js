@@ -13,9 +13,9 @@ const path = require('path');
 const cloudinary = require("cloudinary");
 
 cloudinary.config({
-    cloud_name: 'dsifghbyk',
-    api_key: '826663455555642',
-    api_secret: 'aHfpzsAd2hw8cZwK7vMcaEk7Dyg',
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_APY_KEY,
+    api_secret: process.env.CLOUDINARY_APY_SECRET,
 });
 
 app.use(fileUpload());
