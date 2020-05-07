@@ -27,6 +27,7 @@ export class DetallesAnuncioComponent implements OnInit, AfterViewInit {
     
     this._anuncioService.getImages(this.idAnuncio).subscribe(resp => {
       this.images = resp;
+      console.log('imagenes del anuncio detalles', resp);
     })
   }
 
