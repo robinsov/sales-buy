@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Anuncio } from '../models/anuncio.model';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './detalles-anuncio.component.html',
   styleUrls: ['./detalles-anuncio.component.css']
 })
-export class DetallesAnuncioComponent implements OnInit, AfterViewInit {
+export class DetallesAnuncioComponent implements OnInit {
 
 
   anuncio : Anuncio ;
@@ -19,7 +19,7 @@ export class DetallesAnuncioComponent implements OnInit, AfterViewInit {
               private activateRouter: ActivatedRoute) {
                 this.activateRouter.params.subscribe( resp => {
                   this.idAnuncio = resp['id'];
-                  this.getAnuncio( resp['id']);
+                  this.getAnunci( resp['id']);
                 })
               }
 
@@ -30,11 +30,8 @@ export class DetallesAnuncioComponent implements OnInit, AfterViewInit {
     })
   }
 
-  ngAfterViewInit() {
-    
-  }
 
-  getAnuncio(id: string){
+  getAnunci(id: string){
     this._anuncioService.getAnuncio(id).subscribe( (resp: any) => {
       console.log(resp);
       this.anuncio = resp.anuncioBD
