@@ -13,13 +13,11 @@ export class ContolDirective {
   //inicia el arrastre
   @HostListener('dragenter', ['$event'])
   public onDragEnter(event: any) {
-    console.log('inicia el proceso de arrastre');
     this.archivoSobre.emit(true);
   }
   //entra sobre en el lugar
   @HostListener('dragover', ['$event'])
   public onDragover(event: any) {
-    console.log('sobre el lugar');
     let transferencia = this._getTransferencia(event);
     transferencia.dropEffect = 'copy'
     this._prevenirYDetener(event);
@@ -29,7 +27,6 @@ export class ContolDirective {
   //se coloca sobre el lugar
   @HostListener('drop', ['$event'])
   public onDrop(event: any) {
-    console.log('se coloca' ,event)
     let transferencia = this._getTransferencia(event);
     
 
@@ -66,7 +63,6 @@ export class ContolDirective {
         
       }
     }
-    console.log(this.archivos)
   }
   private _archivoYaFueDropeado(nombreArchivo: string): boolean {
     for (let i in this.archivos) {

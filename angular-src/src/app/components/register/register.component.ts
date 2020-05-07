@@ -32,7 +32,6 @@ export class RegisterComponent implements OnInit {
 
     this._loginService.registrar(vendedor).subscribe((resp:any) => {
       Swal.fire(`${resp.vendedorBD.nombre}`, 'Registrado con exito', "success");
-      console.log(resp.vendedorBD);
       this.router.navigate(['/login']);
     }, err => {
       Swal.fire({

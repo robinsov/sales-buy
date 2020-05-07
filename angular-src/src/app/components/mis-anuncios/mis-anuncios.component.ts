@@ -48,7 +48,6 @@ export class MisAnunciosComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this._anuncioService.deleteAnuncio(id).subscribe((resp: any) => {
-          console.log(resp);
           this.getMisAnuncios();
           Swal.fire(
             "Articulo Borrado!",

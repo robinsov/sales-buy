@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     }
 
     this._login.login(vendedor).subscribe((resp:any) => {
-      console.log(resp);
       localStorage.setItem('token', resp.token);
       localStorage.setItem('vendedor', resp.vendedor.nombre);
       localStorage.setItem('id', resp.vendedor._id )
@@ -47,7 +46,7 @@ export class LoginComponent implements OnInit {
       if(this.recordarme){
         this.email = localStorage.getItem('email');
       }
-      
+
       this.router.navigate(['/perfil', resp.vendedor._id ]);
     }, err => {
       Swal.fire('Intente de nuevo o primero registrese', `${err.error.err.message}`, 'warning')

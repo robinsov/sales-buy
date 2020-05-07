@@ -36,7 +36,6 @@ export class PerfilComponent implements OnInit {
         this.bImg = true;
       }
       this.vendedor = resp;
-      console.log(resp);
     })
   }
 
@@ -51,12 +50,11 @@ export class PerfilComponent implements OnInit {
     }
 
     this._vendedorService.updateVendedor(newVendedor).subscribe( async resp => {
-      console.log(resp);
-      console.log(this.bImg);
+     
+      
       this._loginService.img.emit( await resp.img);
       if(this.bImg === false){
         this.updateImagen( await resp._id, 'vendedores', this.vendedor.img );
-        console.log(this.vendedor.img);
       }
 
        this.router.navigate(['/anuncios', 'nav']);
@@ -67,7 +65,6 @@ export class PerfilComponent implements OnInit {
   updateImagen(id: string, tipo:string, imagen:any){
     this._vendedorService.updateImage( id, tipo, imagen)
         .subscribe( async (anuncio:any) => {
-          console.log(anuncio);
           this._loginService.img.emit( await anuncio.img);
         });
   }

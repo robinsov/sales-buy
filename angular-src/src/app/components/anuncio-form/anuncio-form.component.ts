@@ -115,7 +115,6 @@ export class AnuncioFormComponent implements OnInit {
     reader.addEventListener("load", (event: any) => {
       this.img = file;
       this.imgTemp = reader.result as string;
-      console.log(this.img);
     });
     reader.readAsDataURL(file);
   }
@@ -137,8 +136,9 @@ export class AnuncioFormComponent implements OnInit {
       vendedor: localStorage.getItem('id'),
     };
 
+    console.log('anuncio a guardar', anuncio);
     this.archivos = event;
-    
+
     if (this.source === "add") {
       this._anuncioServicio.createAnuncio(anuncio).subscribe(async (resp:any) => {
         this.permiteCargar = false;
@@ -190,7 +190,6 @@ export class AnuncioFormComponent implements OnInit {
   }
 
   cargarImagen(id:string, tipo:string, imagen: any) {
-    console.log(imagen);
     this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe();
   }
 

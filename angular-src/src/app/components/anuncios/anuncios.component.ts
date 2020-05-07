@@ -27,18 +27,15 @@ export class AnunciosComponent implements OnInit {
         this.valor = resp['valor'];
 
         if(this.source === 'search') {
-          console.log('entro a anuncios desde search');
           this.getAnunciosSearch(this.valor)
         }
         if(this.source === 'cat') {
-          console.log('entro a anuncios desde categorias');
           this.getAnunciosCategorias(this.valor)
         }
       }
 
       if(this.source){
         if(this.source === 'nav'){
-          console.log('entro a anuncios desde nav');
           this.getAnunciosNav()
         }
         
@@ -63,7 +60,6 @@ export class AnunciosComponent implements OnInit {
 
   getAnunciosSearch(termino: string){
     this._anuncioService.getAnunciosPorTermino(termino).subscribe((resp:any)=> {
-      console.log(resp.anunciosEncontrados);
       this.anuncios = resp.anunciosEncontrados;
       console.log(this.anuncios);
     })
