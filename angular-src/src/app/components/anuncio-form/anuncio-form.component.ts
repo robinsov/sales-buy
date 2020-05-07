@@ -39,7 +39,6 @@ export class AnuncioFormComponent implements OnInit {
   constructor(
     private _categoriaService: CategoriasService,
     private _anuncioServicio: AnunciosService,
-    private _loginService: LoginService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -55,16 +54,17 @@ export class AnuncioFormComponent implements OnInit {
   }
 
   cargarStorage() {
-    console.log('storage cargado');
+    
       this.idVendedor = localStorage.getItem('id');
       this.vendedor = localStorage.getItem("vendedor");
       this.email = localStorage.getItem("email");
       this.fecha = new Date().getTime();
-      console.log(localStorage.getItem("id"));
+      
     
   }
 
   ngOnInit(): void {
+    this.cargarStorage();
     this._categoriaService.getCategorias().subscribe((resp) => {
       this.categorias = resp;
     });
