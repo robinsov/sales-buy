@@ -115,16 +115,16 @@ app.put('/upload/:tipo/:id', (req, res) => {
 
     //aqui ya la imagen esta cargada
     if (tipo === 'vendedores') {
-        imagenVendedor(id, res, nombreArchivo, archivo);
+        imagenVendedor(id, res, archivo);
     } else {
-        imagenAnuncio(id, res, nombreArchivo);
+        imagenAnuncio(id, res, archivo);
     }
 
 
 });
 
 
-function imagenVendedor(id, res, nombreArchivo, archivo) {
+function imagenVendedor(id, res, archivo) {
     Vendedor.findById(id, async(err, vendedorBD) => {
         if (err) {
 
@@ -152,7 +152,7 @@ function imagenVendedor(id, res, nombreArchivo, archivo) {
             await cloudinary.v2.uploader.destroy(vendedorBD.idImg);
         }
 
-        console.log('nombre', nombreArchivo);
+
         try {
             const result = await cloudinary.v2.uploader.upload(archivo.tempFilePath);
             vendedorBD.img = result.url;
@@ -162,7 +162,7 @@ function imagenVendedor(id, res, nombreArchivo, archivo) {
             console.log(error);
         }
 
-        borraArchivo(nombreArchivo, 'vendedores')
+        // borraArchivo(archivo, 'vendedores')
         vendedorBD.save((err, vendedorGuardado) => {
             res.json({
                 ok: true,
@@ -174,7 +174,7 @@ function imagenVendedor(id, res, nombreArchivo, archivo) {
 }
 
 
-function imagenAnuncio(id, res, nombreArchivo) {
+function imagenAnuncio(id, res, archivo) {
 
 
     Anuncio.findById(id, async(err, anuncioBD) => {
@@ -197,7 +197,7 @@ function imagenAnuncio(id, res, nombreArchivo) {
         }
 
         try {
-            const result = await cloudinary.v2.uploader.upload(`uploads/anuncios/${ nombreArchivo }`);
+            const result = await cloudinary.v2.uploader.upload(archivo.tempFilePath);
             anuncioBD.img = result.url;
             anuncioBD.idImg = result.public_id;
 
@@ -209,7 +209,7 @@ function imagenAnuncio(id, res, nombreArchivo) {
             console.log(error);
         }
 
-        borraArchivo(nombreArchivo, 'anuncios')
+        // borraArchivo(nombreArchivo, 'anuncios')
 
     });
 }
