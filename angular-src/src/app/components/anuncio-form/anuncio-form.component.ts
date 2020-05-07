@@ -124,17 +124,21 @@ export class AnuncioFormComponent implements OnInit {
     this.permiteCargar = event;
   }
 
+
   guardarAnuncio(event: any) {
+    this.cargarStorage();
+
     let anuncio: Anuncio = {
       tituloAnuncio: this.tituloAnuncio,
       precioUni: this.precioUni,
       descripcion: this.descripcion,
       ciudad: this.ciudad,
       categoria: this.categoria,
-      vendedor: this.idVendedor,
+      vendedor: localStorage.getItem('id'),
     };
 
     this.archivos = event;
+    
     if (this.source === "add") {
       this._anuncioServicio.createAnuncio(anuncio).subscribe(async (resp:any) => {
         this.permiteCargar = false;
