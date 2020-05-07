@@ -17,7 +17,7 @@ import { IImage } from "../models/image.model";
 export class AnuncioFormComponent implements OnInit {
   categorias: any[] = [];
   imagenesCargadas = 0;
-  permiteCargar: boolean = true;
+  permiteCargar: boolean = false;
   archivos: any[] = [];
   archivosEdit: any[] = [];
   archivoDB: IImage;
@@ -32,6 +32,7 @@ export class AnuncioFormComponent implements OnInit {
   idVendedor:string;
   email: string;
   fecha: any;
+  token: string;
 
   imgTemp: string;
   source: string;
@@ -58,6 +59,7 @@ export class AnuncioFormComponent implements OnInit {
       this.idVendedor = localStorage.getItem('id');
       this.vendedor = localStorage.getItem("vendedor");
       this.email = localStorage.getItem("email");
+      this.token = localStorage.getItem("token");
       this.fecha = new Date().getTime();
       
     
@@ -119,10 +121,7 @@ export class AnuncioFormComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  permiteCarga(event: any) {
-    this.permiteCargar = event;
-  }
-
+  
 
   guardarAnuncio(event: any) {
     this.cargarStorage();
@@ -140,8 +139,8 @@ export class AnuncioFormComponent implements OnInit {
     this.archivos = event;
 
     if (this.source === "add") {
-      this._anuncioServicio.createAnuncio(anuncio).subscribe(async (resp:any) => {
-        this.permiteCargar = false;
+      this._anuncioServicio.createAnuncio(anuncio, this.token).subscribe(async (resp:any) => {
+        
 
         while (this.imagenesCargadas < this.archivos.length) {
           

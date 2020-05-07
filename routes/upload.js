@@ -26,7 +26,7 @@ app.put('/image', async(req, res) => {
     try {
         const result = await cloudinary.v2.uploader.upload(im.tempFilePath);
 
-        console.log(result);
+
     } catch (error) {
         console.log(error);
     }
@@ -216,7 +216,7 @@ function imagenAnuncio(id, res, archivo) {
 
 function crearImages(result, id, res) {
 
-    console.log(result);
+
     let image = new Image({
         title: result.original_filename,
         picture: result.url,
@@ -277,7 +277,7 @@ app.get('/image/:idAnuncio', (req, res) => {
             if (imagesBD) {
                 for (const prop in imagesBD) {
                     if (imagesBD[prop].anuncio._id == anuncioId) {
-                        console.log(imagesBD[prop].anuncio._id);
+
                         imagesAnuncio.push(imagesBD[prop]);
                     }
                 }

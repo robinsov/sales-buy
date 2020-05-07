@@ -84,7 +84,7 @@ app.post('/categoria', verificaToken, (req, res) => {
                 err
             })
         }
-        console.log('guardo');
+
 
         res.json({
             ok: true,

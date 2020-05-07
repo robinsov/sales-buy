@@ -25,9 +25,6 @@
                     <div class="form-group">
                         <input disabled class="form-control" type="text" [(ngModel)]="email" name="email" />
                     </div>
-                    <div class="form-group">
-                        <input disabled class="form-control" type="text" [(ngModel)]="fecha" name="fecha" />
-                    </div>
 
                     <div class="form-group">
                         <select [(ngModel)]="categoria" name="categoria" class="custom-select custom-select-lg mb-3" required>
@@ -78,7 +75,7 @@
     <div class="col">
         <div class="card card-body text-center">
 
-            <app-prueba-listener [boton]="source" (cargarImages)="guardarAnuncio($event)" (permiteCarga)="permiteCarga($event)"></app-prueba-listener>
+            <app-prueba-listener *ngIf="f.valid" [boton]="source" (cargarImages)="guardarAnuncio($event)"></app-prueba-listener>
 
             <button [routerLink]="['/anuncios', 'nav']" type="button" class="btn btn-outline-danger btn-block">
                 <i class="fa fa-back"></i>

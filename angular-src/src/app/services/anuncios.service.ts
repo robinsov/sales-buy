@@ -15,15 +15,12 @@ export class AnunciosService {
   anunciosPorCategorias : any[];
   imagesSegunAnuncio: any[];
 
-  httpHeaders : HttpHeaders;
 
   constructor(private http: HttpClient,
               private _loginService: LoginService) {
                 this._loginService.tokenListo.subscribe(resp => {
                   if(resp){
-                    this.httpHeaders = new HttpHeaders({
-                      token: localStorage.getItem('token')
-                    })
+                    
                   }
                 })
               }
@@ -43,9 +40,11 @@ export class AnunciosService {
     return this.http.get(`${environment.API_URI}/misAnuncios/${id}`)
   }
   
-  createAnuncio(anuncio: Anuncio ){
-    
-    return this.http.post(`${environment.API_URI}/anuncio`, anuncio, {headers: this.httpHeaders} )
+  createAnuncio(anuncio: Anuncio, token:string ){
+    let httpHeaders = new HttpHeaders({
+      token: token
+    })
+    return this.http.post(`${environment.API_URI}/anuncio`, anuncio, {headers: httpHeaders} )
     .pipe( map ((resp:any) => {
       return resp.anuncioBD
     }))
