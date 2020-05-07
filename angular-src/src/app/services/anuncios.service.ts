@@ -15,12 +15,18 @@ export class AnunciosService {
   anunciosPorCategorias : any[];
   imagesSegunAnuncio: any[];
 
-  httpHeaders = new HttpHeaders({
-    token: localStorage.getItem('token')
-  })
+  httpHeaders : HttpHeaders;
 
   constructor(private http: HttpClient,
-              private _loginService: LoginService) { }
+              private _loginService: LoginService) {
+                this._loginService.tokenListo.subscribe(resp => {
+                  if(resp){
+                    this.httpHeaders = new HttpHeaders({
+                      token: localStorage.getItem('token')
+                    })
+                  }
+                })
+              }
 
   getAnuncios(){
     return this.http.get(`${environment.API_URI}/anuncio`).pipe( map ((resp:any) => {
