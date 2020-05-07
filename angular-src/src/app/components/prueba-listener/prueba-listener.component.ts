@@ -18,6 +18,7 @@ export class PruebaListenerComponent implements OnInit {
   filesToUpload: any;
 
   archivos: any[] = [];
+  files: any[] = [];
   constructor() { 
 
   }
@@ -44,6 +45,11 @@ export class PruebaListenerComponent implements OnInit {
   cargarImagenes(){
     this.cargarImages.emit(this.archivos);
     this.permiteCarga.emit(this.permiteCargar);
+  }
+
+  handleFileSelect(evt: any) {
+    this.files = evt.target.files; // FileList object
+    this.archivos = this.files;
   }
 
 }

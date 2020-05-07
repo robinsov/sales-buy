@@ -5,7 +5,7 @@ import { AnunciosService } from "src/app/services/anuncios.service";
 
 import Swal from "sweetalert2";
 
-import { LoginService } from "src/app/services/login.service";
+
 import { Router, ActivatedRoute } from "@angular/router";
 import { IImage } from "../models/image.model";
 

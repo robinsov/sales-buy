@@ -6,8 +6,16 @@
                 <h4>Suelta las imagenes aquí</h4>
                 <img src="/assets/img/drop-images.png" alt="">
             </div>
+            <h5> O selecciona tus archivos</h5>
+            <div class="input-group mb-3">
+
+                <div class="custom-file" (change)="handleFileSelect($event)">
+                    <input type="file" name="files" class="custom-file-input" multiple>
+                    <label class="custom-file-label">Choose file</label>
+                </div>
+            </div>
         </div>
-        <div class="col-md-8" style="margin-button:40px">
+        <div class="col-md-8" style="margin-button: 40px;">
             <h3>Carga de Archivos </h3>
 
             <button *ngIf="source != 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Acutalizar Anuncio</button>
