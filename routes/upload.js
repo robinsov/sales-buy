@@ -18,8 +18,26 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_APY_SECRET,
 });
 
-app.use(fileUpload());
-//app.use(fileUpload({ useTempFiles: true }));
+//app.use(fileUpload());
+app.use(fileUpload({ useTempFiles: true }));
+
+app.put('/image', async(req, res) => {
+    let im = req.files.archivo;
+    try {
+        const result = await cloudinary.v2.uploader.upload(im.tempFilePath);
+
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
+
+
+    res.json({
+        im
+    })
+})
+
+
 
 app.put('/upload/:tipo/:id', (req, res) => {
 
@@ -80,24 +98,24 @@ app.put('/upload/:tipo/:id', (req, res) => {
     // movemos el archivo a algun lugar de la aplicacion en este caso a la carpeta 
     // uploads
     // console.log(archivo);
-    const destino = path.resolve(__dirname, `../uploads/${ tipo }/${ nombreArchivo }`)
-    archivo.mv(destino, (err) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err: {
-                    message: 'archivo no se puede mover'
-                }
-            });
-        }
-    });
+    // const destino = path.resolve(__dirname, `../uploads/${ tipo }/${ nombreArchivo }`)
+    // archivo.mv(destino, (err) => {
+    //     if (err) {
+    //         return res.status(500).json({
+    //             ok: false,
+    //             err: {
+    //                 message: 'archivo no se puede mover'
+    //             }
+    //         });
+    //     }
+    // });
 
     // console.log(`uploads/${ tipo }/${ nombreArchivo }`);
 
 
     //aqui ya la imagen esta cargada
     if (tipo === 'vendedores') {
-        imagenVendedor(id, res, nombreArchivo);
+        imagenVendedor(id, res, nombreArchivo, archivo);
     } else {
         imagenAnuncio(id, res, nombreArchivo);
     }
@@ -106,7 +124,7 @@ app.put('/upload/:tipo/:id', (req, res) => {
 });
 
 
-function imagenVendedor(id, res, nombreArchivo) {
+function imagenVendedor(id, res, nombreArchivo, archivo) {
     Vendedor.findById(id, async(err, vendedorBD) => {
         if (err) {
 
@@ -136,7 +154,7 @@ function imagenVendedor(id, res, nombreArchivo) {
 
         console.log('nombre', nombreArchivo);
         try {
-            const result = await cloudinary.v2.uploader.upload(`uploads/vendedores/${ nombreArchivo }`);
+            const result = await cloudinary.v2.uploader.upload(archivo.tempFilePath);
             vendedorBD.img = result.url;
             vendedorBD.idImg = result.public_id;
 
