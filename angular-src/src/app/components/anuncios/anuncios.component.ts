@@ -21,10 +21,10 @@ export class AnunciosComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.activateRoute.params.subscribe(resp => {
-      this.source = resp['source'];
+    this.activateRoute.params.subscribe(async resp => {
+      this.source = await resp['source'];
       if(resp['valor']){
-        this.valor = resp['valor'];
+        this.valor = await resp['valor'];
 
         if(this.source === 'search') {
           this.getAnunciosSearch(this.valor)
@@ -45,8 +45,8 @@ export class AnunciosComponent implements OnInit {
   }
 
   getAnunciosNav(){
-    this._anuncioService.getAnuncios().subscribe( (resp:any) => {
-      this.anuncios = resp;
+    this._anuncioService.getAnuncios().subscribe( async (resp:any) => {
+      this.anuncios = await resp;
     })
   }
 
@@ -61,7 +61,6 @@ export class AnunciosComponent implements OnInit {
   getAnunciosSearch(termino: string){
     this._anuncioService.getAnunciosPorTermino(termino).subscribe( async (resp:any)=> {
       this.anuncios = await resp.anunciosEncontrados;
-      console.log(this.anuncios);
     })
   }
 

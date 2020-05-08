@@ -49,7 +49,7 @@ export class MisAnunciosComponent implements OnInit {
       if (result.value) {
         this._anuncioService.deleteAnuncio(id).subscribe(async (resp: any) => {
           this.getMisAnuncios();
-          Swal.fire(
+          await Swal.fire(
             "Articulo Borrado!",
             `${ await resp.anuncioBorradoBD.tituloAnuncio}`,
             "success"
