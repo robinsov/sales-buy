@@ -22,7 +22,7 @@ export class PerfilComponent implements OnInit {
               private _loginService: LoginService,
               private router: Router) {
                 this.activateRoute.params.subscribe( async resp => {
-                  this.getPerfilCompleto(await resp['id']);
+                  this.getPerfilCompleto(  resp['id']);
                   
                   
                 })
@@ -33,12 +33,12 @@ export class PerfilComponent implements OnInit {
 
   getPerfilCompleto(id:string){
     this._vendedorService.getVendedor(id).subscribe( async (resp:any) => {
-      if(await resp.idImg){
+      if(  resp.idImg){
         this.bImg = true;
       }else{
-        await Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
+          Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
       }
-      this.vendedor = await resp;
+      this.vendedor =   resp;
     })
   }
 
@@ -55,12 +55,12 @@ export class PerfilComponent implements OnInit {
     this._vendedorService.updateVendedor(newVendedor).subscribe( async resp => {
      
       
-      this._loginService.img.emit( await resp.img);
+      this._loginService.img.emit(   resp.img);
       if(this.bImg === false){
         this.updateImagen(  resp._id, 'vendedores', this.vendedor.img );
       }
 
-      await this.router.navigate(['/anuncios', 'nav']);
+        this.router.navigate(['/anuncios', 'nav']);
     })
 
   }
@@ -68,7 +68,7 @@ export class PerfilComponent implements OnInit {
   updateImagen(id: string, tipo:string, imagen:any){
     this._vendedorService.updateImage( id, tipo, imagen)
         .subscribe( async (anuncio:any) => {
-          this._loginService.img.emit( await anuncio.img);
+          this._loginService.img.emit(   anuncio.img);
         });
   }
 

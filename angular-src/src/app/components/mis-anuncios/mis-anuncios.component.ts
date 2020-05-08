@@ -17,7 +17,7 @@ export class MisAnunciosComponent implements OnInit {
   constructor(private _anuncioService: AnunciosService,
               private activateRoute: ActivatedRoute) {
               this.activateRoute.params.subscribe(async resp=> {
-                this.source = await resp['source'];
+                this.source =   resp['source'];
                 
               })
   }
@@ -32,7 +32,7 @@ export class MisAnunciosComponent implements OnInit {
     this._anuncioService
       .getMisAnuncios(this.idVendedor)
       .subscribe( async (resp: any) => {
-        this.misAnuncios = await resp.misAnuncios
+        this.misAnuncios =   resp.misAnuncios
       });
   }
 
@@ -49,9 +49,9 @@ export class MisAnunciosComponent implements OnInit {
       if (result.value) {
         this._anuncioService.deleteAnuncio(id).subscribe(async (resp: any) => {
           this.getMisAnuncios();
-          await Swal.fire(
+            Swal.fire(
             "Articulo Borrado!",
-            `${ await resp.anuncioBorradoBD.tituloAnuncio}`,
+            `${   resp.anuncioBorradoBD.tituloAnuncio}`,
             "success"
           );
         });

@@ -36,18 +36,18 @@ export class LoginComponent implements OnInit {
     }
 
     this._login.login(vendedor).subscribe( async (resp:any) => {
-      localStorage.setItem('token', await resp.token);
-      localStorage.setItem('vendedor', await resp.vendedor.nombre);
-      localStorage.setItem('id', await resp.vendedor._id )
-      localStorage.setItem('email', await resp.vendedor.email);
-      let img = await resp.vendedor.img;
+      localStorage.setItem('token',   resp.token);
+      localStorage.setItem('vendedor',   resp.vendedor.nombre);
+      localStorage.setItem('id',   resp.vendedor._id )
+      localStorage.setItem('email',   resp.vendedor.email);
+      let img =   resp.vendedor.img;
       this._login.img.emit(img);
 
       if(this.recordarme){
         this.email = localStorage.getItem('email');
       }
 
-      await this.router.navigate(['/perfil', resp.vendedor._id ]);
+        this.router.navigate(['/perfil', resp.vendedor._id ]);
     }, err => {
       Swal.fire('Intente de nuevo o primero registrese', `${err.error.err.message}`, 'warning')
     })

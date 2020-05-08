@@ -3,7 +3,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { Categoria } from '../models/categoria.model';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { Router } from '@angular/router';
-import { async } from '@angular/core/testing';
+import {   } from '@angular/core/testing';
 
 @Component({
   selector: 'app-categorias',
@@ -23,8 +23,8 @@ export class CategoriasComponent implements OnInit {
   }
 
   getCategorias(){
-    this._categoriasService.getCategorias().subscribe( async resp => {
-      this.categorias = await resp
+    this._categoriasService.getCategorias().subscribe(   resp => {
+      this.categorias =   resp
     })
   }
 

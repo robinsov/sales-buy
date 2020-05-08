@@ -18,15 +18,15 @@ export class DetallesAnuncioComponent implements OnInit {
   constructor(private _anuncioService: AnunciosService,
               private activateRouter: ActivatedRoute) {
                 this.activateRouter.params.subscribe( async resp => {
-                  this.idAnuncio = await resp['id'];
-                  this.getAnunci( await resp['id']);
+                  this.idAnuncio =   resp['id'];
+                  this.getAnunci(   resp['id']);
                 })
               }
 
   ngOnInit(): void {
     
     this._anuncioService.getImages(this.idAnuncio).subscribe( async (resp:any) => {
-       this.images = await resp;
+       this.images =   resp;
     })
   }
 
@@ -34,7 +34,7 @@ export class DetallesAnuncioComponent implements OnInit {
   getAnunci(id: string){
     this._anuncioService.getAnuncio(id).subscribe( async ( resp: any) => {
       
-      this.anuncio = await resp.anuncioBD
+      this.anuncio =   resp.anuncioBD
     })
   }
 

@@ -45,11 +45,11 @@ export class AnuncioFormComponent implements OnInit {
   ) {
     this.cargarStorage();
 
-    this.activatedRoute.params.subscribe(async (resp) => {
-      this.source = await resp["source"];
-      if ( await resp["source"] != "add") {
+    this.activatedRoute.params.subscribe(  (resp) => {
+      this.source =   resp["source"];
+      if (   resp["source"] != "add") {
         this.beditar = true;
-        this.getAnuncio( await resp["source"]);
+        this.getAnuncio(   resp["source"]);
       }
     });
   }
@@ -67,23 +67,23 @@ export class AnuncioFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarStorage();
-    this._categoriaService.getCategorias().subscribe( async (resp) => {
-      this.categorias = await resp;
+    this._categoriaService.getCategorias().subscribe(   (resp) => {
+      this.categorias =   resp;
     });
   }
 
   getAnuncio(id: string) {
-    this._anuncioServicio.getAnuncio(id).subscribe( async (resp: any) => {
-       this.tituloAnuncio = await resp.anuncioBD.tituloAnuncio;
-       this.precioUni = await resp.anuncioBD.precioUni;
-       this.descripcion = await resp.anuncioBD.descripcion;
-       this.ciudad = await resp.anuncioBD.ciudad;
-       this.imgTemp = await resp.anuncioBD.img;
-      this.categoria = await resp.anuncioBD.categoria._id;
+    this._anuncioServicio.getAnuncio(id).subscribe(   (resp: any) => {
+       this.tituloAnuncio =   resp.anuncioBD.tituloAnuncio;
+       this.precioUni =   resp.anuncioBD.precioUni;
+       this.descripcion =   resp.anuncioBD.descripcion;
+       this.ciudad =   resp.anuncioBD.ciudad;
+       this.imgTemp =   resp.anuncioBD.img;
+      this.categoria =   resp.anuncioBD.categoria._id;
     });
 
-    this._anuncioServicio.getImages(this.source).subscribe( async resp => {
-      this.archivosEdit = await resp;
+    this._anuncioServicio.getImages(this.source).subscribe(   resp => {
+      this.archivosEdit =   resp;
     })
   }
 
@@ -98,9 +98,9 @@ export class AnuncioFormComponent implements OnInit {
       confirmButtonText: "Si, Borralo!",
     }).then((result) => {
       if (result.value) {
-        this._anuncioServicio.deleteImage(id).subscribe( async resp => {
+        this._anuncioServicio.deleteImage(id).subscribe(   resp => {
           this.getAnuncio(this.source);
-          await Swal.fire(
+            Swal.fire(
             "Imagen Borrada!",
             "success"
           );
@@ -139,12 +139,12 @@ export class AnuncioFormComponent implements OnInit {
     this.archivos = event;
 
     if (this.source === "add") {
-      this._anuncioServicio.createAnuncio(anuncio, this.token).subscribe(async (resp:any) => {
+      this._anuncioServicio.createAnuncio(anuncio, this.token).subscribe(  (resp:any) => {
         
 
         while (this.imagenesCargadas < this.archivos.length) {
           
-           this.cargarImagen(await (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
+           this.cargarImagen(  (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
 
           this.imagenesCargadas++;
           
@@ -152,24 +152,24 @@ export class AnuncioFormComponent implements OnInit {
           
         this.imagenesCargadas = 0;
 
-        await Swal.fire(
+          Swal.fire(
             "Anuncio Guardado!",
-            `${ await resp.tituloAnuncio}`,
+            `${   resp.tituloAnuncio}`,
             "success"
         );
         
-        await this.router.navigate(["/anuncios", "nav"]);
+          this.router.navigate(["/anuncios", "nav"]);
 
       });
 
     } else {
       
-      this._anuncioServicio.updateAnuncio(anuncio, this.source).subscribe(async (resp:any) => {
+      this._anuncioServicio.updateAnuncio(anuncio, this.source).subscribe(  (resp:any) => {
         this.permiteCargar = false;
 
         while (this.imagenesCargadas < this.archivos.length) {
           
-           this.cargarImagen(await (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
+           this.cargarImagen(  (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
 
           this.imagenesCargadas++;
           
@@ -177,13 +177,13 @@ export class AnuncioFormComponent implements OnInit {
           
         this.imagenesCargadas = 0;
 
-        await Swal.fire(
+          Swal.fire(
             "Anuncio Actualizado!",
-            `${await resp.tituloAnuncio}`,
+            `${  resp.tituloAnuncio}`,
             "success"
         );
         
-        await this.router.navigate(["/anuncios", "nav"]);
+          this.router.navigate(["/anuncios", "nav"]);
       });
     }
   }
