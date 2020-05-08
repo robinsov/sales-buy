@@ -18,16 +18,12 @@ export class AnunciosService {
 
   constructor(private http: HttpClient,
               private _loginService: LoginService) {
-                this._loginService.tokenListo.subscribe(resp => {
-                  if(resp){
-                    
-                  }
-                })
+                
               }
 
   getAnuncios(){
-    return this.http.get(`${environment.API_URI}/anuncio`).pipe( map ( async (resp:any) => {
-      return await resp.anuncios;
+    return this.http.get(`${environment.API_URI}/anuncio`).pipe( map (  (resp:any) => {
+      return  resp.anuncios;
     }));
   }
   
@@ -45,8 +41,8 @@ export class AnunciosService {
       token: token
     })
     return  this.http.post(`${environment.API_URI}/anuncio`, anuncio, {headers: httpHeaders} )
-    .pipe( map ( async (resp:any) => {
-      return await resp.anuncioBD
+    .pipe( map (  (resp:any) => {
+      return  resp.anuncioBD
     }))
   }
 
@@ -55,16 +51,16 @@ export class AnunciosService {
     formData.append('archivo', imagen, imagen.name);
 
     return this.http.put(`${environment.API_URI}/upload/${tipo}/${id}`, formData )
-    .pipe( map ( async (resp:any)=> {
-      return await resp.imageBD;
+    .pipe( map (  (resp:any)=> {
+      return  resp.imageBD;
     }))
   }
   
   updateAnuncio(anuncio: any, id:string){
 
     return this.http.put(`${environment.API_URI}/anuncio/${id}`, anuncio)
-    .pipe( map ( async (resp:any) => {
-      return await resp.anuncioBD
+    .pipe( map (  (resp:any) => {
+      return  resp.anuncioBD
     }))
   }
   
@@ -85,14 +81,14 @@ export class AnunciosService {
   // }
 
   getImages(idAnuncio: string){
-    return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).pipe( map ( async (resp:any) => {
-      return await resp.imagesAnuncio;
+    return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).pipe( map (  (resp:any) => {
+      return  resp.imagesAnuncio;
     }))
   }
 
   deleteImage(id:string){
-    return this.http.delete(`${environment.API_URI}/image/${id}`).pipe( map ( async (resp:any) => {
-      return await resp.imageBDBorrada;
+    return this.http.delete(`${environment.API_URI}/image/${id}`).pipe( map (  (resp:any) => {
+      return  resp.imageBDBorrada;
     })) ;
   }
 
