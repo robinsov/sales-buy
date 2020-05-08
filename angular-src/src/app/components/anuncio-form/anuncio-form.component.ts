@@ -169,7 +169,7 @@ export class AnuncioFormComponent implements OnInit {
 
         while (this.imagenesCargadas < this.archivos.length) {
           
-          await this.cargarImagen(resp._id, 'anuncios', this.archivos[this.imagenesCargadas] );
+           this.cargarImagen(await (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
 
           this.imagenesCargadas++;
           
