@@ -21,9 +21,10 @@ export class PerfilComponent implements OnInit {
               private activateRoute: ActivatedRoute,
               private _loginService: LoginService,
               private router: Router) {
-                this.activateRoute.params.subscribe( resp => {
-                  this.getPerfilCompleto(resp['id']);
-                  Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
+                this.activateRoute.params.subscribe( async resp => {
+                  this.getPerfilCompleto(await resp['id']);
+                  
+                  
                 })
               }
 
@@ -31,11 +32,13 @@ export class PerfilComponent implements OnInit {
   }
 
   getPerfilCompleto(id:string){
-    this._vendedorService.getVendedor(id).subscribe( (resp:any) => {
-      if(resp.idImg){
+    this._vendedorService.getVendedor(id).subscribe( async (resp:any) => {
+      if(await resp.idImg){
         this.bImg = true;
+      }else{
+        Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
       }
-      this.vendedor = resp;
+      this.vendedor = await resp;
     })
   }
 

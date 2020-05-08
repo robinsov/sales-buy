@@ -25,16 +25,16 @@ export class DetallesAnuncioComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this._anuncioService.getImages(this.idAnuncio).subscribe(resp => {
-      this.images = resp;
+    this._anuncioService.getImages(this.idAnuncio).subscribe( async (resp:any) => {
+       this.images = await resp;
     })
   }
 
 
   getAnunci(id: string){
-    this._anuncioService.getAnuncio(id).subscribe( (resp: any) => {
+    this._anuncioService.getAnuncio(id).subscribe( async ( resp: any) => {
       console.log(resp);
-      this.anuncio = resp.anuncioBD
+      this.anuncio = await resp.anuncioBD
     })
   }
 

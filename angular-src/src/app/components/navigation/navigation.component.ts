@@ -25,13 +25,13 @@ export class NavigationComponent implements OnInit {
       this.nombreVendedor = localStorage.getItem('vendedor');
     }
     
-    this._loginService.img.subscribe(resp => {
-      this.img = resp
+    this._loginService.img.subscribe( async resp => {
+      this.img =await resp
     })
     
 
-    this._loginService.nombrelisto.subscribe(resp => {
-      this.nombreVendedor = resp;
+    this._loginService.nombrelisto.subscribe( async resp => {
+      this.nombreVendedor = await resp;
     })
   }
 

@@ -31,8 +31,8 @@ export class MisAnunciosComponent implements OnInit {
   getMisAnuncios() {
     this._anuncioService
       .getMisAnuncios(this.idVendedor)
-      .subscribe((resp: any) => {
-        this.misAnuncios = resp.misAnuncios
+      .subscribe( async (resp: any) => {
+        this.misAnuncios = await resp.misAnuncios
       });
   }
 
@@ -47,11 +47,11 @@ export class MisAnunciosComponent implements OnInit {
       confirmButtonText: "Si, Borralo!",
     }).then((result) => {
       if (result.value) {
-        this._anuncioService.deleteAnuncio(id).subscribe((resp: any) => {
+        this._anuncioService.deleteAnuncio(id).subscribe(async (resp: any) => {
           this.getMisAnuncios();
           Swal.fire(
             "Articulo Borrado!",
-            `${resp.anuncioBorradoBD.tituloAnuncio}`,
+            `${ await resp.anuncioBorradoBD.tituloAnuncio}`,
             "success"
           );
         });

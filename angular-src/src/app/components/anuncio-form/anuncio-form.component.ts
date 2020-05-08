@@ -73,17 +73,17 @@ export class AnuncioFormComponent implements OnInit {
   }
 
   getAnuncio(id: string) {
-    this._anuncioServicio.getAnuncio(id).subscribe((resp: any) => {
-      this.tituloAnuncio = resp.anuncioBD.tituloAnuncio;
-      this.precioUni = resp.anuncioBD.precioUni;
-      this.descripcion = resp.anuncioBD.descripcion;
-      this.ciudad = resp.anuncioBD.ciudad;
-      this.imgTemp = resp.anuncioBD.img;
-      this.categoria = resp.anuncioBD.categoria._id;
+    this._anuncioServicio.getAnuncio(id).subscribe( async (resp: any) => {
+       this.tituloAnuncio = await resp.anuncioBD.tituloAnuncio;
+       this.precioUni = await resp.anuncioBD.precioUni;
+       this.descripcion = await resp.anuncioBD.descripcion;
+       this.ciudad = await resp.anuncioBD.ciudad;
+       this.imgTemp = await resp.anuncioBD.img;
+      this.categoria = await resp.anuncioBD.categoria._id;
     });
 
-    this._anuncioServicio.getImages(this.source).subscribe( resp => {
-      this.archivosEdit = resp;
+    this._anuncioServicio.getImages(this.source).subscribe( async resp => {
+      this.archivosEdit = await resp;
     })
   }
 
@@ -144,7 +144,7 @@ export class AnuncioFormComponent implements OnInit {
 
         while (this.imagenesCargadas < this.archivos.length) {
           
-          this.cargarImagen(resp._id, 'anuncios', this.archivos[this.imagenesCargadas] );
+          await this.cargarImagen(resp._id, 'anuncios', this.archivos[this.imagenesCargadas] );
 
           this.imagenesCargadas++;
           
@@ -169,7 +169,7 @@ export class AnuncioFormComponent implements OnInit {
 
         while (this.imagenesCargadas < this.archivos.length) {
           
-          this.cargarImagen(resp._id, 'anuncios', this.archivos[this.imagenesCargadas] );
+          await this.cargarImagen(resp._id, 'anuncios', this.archivos[this.imagenesCargadas] );
 
           this.imagenesCargadas++;
           
@@ -188,7 +188,7 @@ export class AnuncioFormComponent implements OnInit {
     }
   }
 
-  cargarImagen(id:string, tipo:string, imagen: any) {
+  async cargarImagen(id:string, tipo:string, imagen: any) {
     this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe();
   }
 

@@ -52,15 +52,15 @@ export class AnunciosComponent implements OnInit {
 
 
   getAnunciosCategorias(id: string){
-    this._anuncioService.getAnunciosPorCategorias(id).subscribe((resp:any)=> {
-      this.anuncios = resp.misCategorias;
+    this._anuncioService.getAnunciosPorCategorias(id).subscribe( async (resp:any)=> {
+      this.anuncios = await resp.misCategorias;
     })
   }
 
 
   getAnunciosSearch(termino: string){
-    this._anuncioService.getAnunciosPorTermino(termino).subscribe((resp:any)=> {
-      this.anuncios = resp.anunciosEncontrados;
+    this._anuncioService.getAnunciosPorTermino(termino).subscribe( async (resp:any)=> {
+      this.anuncios = await resp.anunciosEncontrados;
       console.log(this.anuncios);
     })
   }

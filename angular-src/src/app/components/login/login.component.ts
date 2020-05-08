@@ -35,19 +35,19 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
-    this._login.login(vendedor).subscribe((resp:any) => {
+    this._login.login(vendedor).subscribe( async (resp:any) => {
       localStorage.setItem('token', resp.token);
       localStorage.setItem('vendedor', resp.vendedor.nombre);
       localStorage.setItem('id', resp.vendedor._id )
       localStorage.setItem('email', resp.vendedor.email);
-      let img = resp.vendedor.img;
+      let img = await resp.vendedor.img;
       this._login.img.emit(img);
 
       if(this.recordarme){
         this.email = localStorage.getItem('email');
       }
 
-      this.router.navigate(['/perfil', resp.vendedor._id ]);
+      await this.router.navigate(['/perfil', resp.vendedor._id ]);
     }, err => {
       Swal.fire('Intente de nuevo o primero registrese', `${err.error.err.message}`, 'warning')
     })

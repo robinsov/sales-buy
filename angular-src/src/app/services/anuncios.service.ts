@@ -26,8 +26,8 @@ export class AnunciosService {
               }
 
   getAnuncios(){
-    return this.http.get(`${environment.API_URI}/anuncio`).pipe( map ((resp:any) => {
-      return resp.anuncios;
+    return this.http.get(`${environment.API_URI}/anuncio`).pipe( map ( async (resp:any) => {
+      return await resp.anuncios;
     }));
   }
   
@@ -44,9 +44,9 @@ export class AnunciosService {
     let httpHeaders = new HttpHeaders({
       token: token
     })
-    return this.http.post(`${environment.API_URI}/anuncio`, anuncio, {headers: httpHeaders} )
-    .pipe( map ((resp:any) => {
-      return resp.anuncioBD
+    return  this.http.post(`${environment.API_URI}/anuncio`, anuncio, {headers: httpHeaders} )
+    .pipe( map ( async (resp:any) => {
+      return await resp.anuncioBD
     }))
   }
 
@@ -55,16 +55,16 @@ export class AnunciosService {
     formData.append('archivo', imagen, imagen.name);
 
     return this.http.put(`${environment.API_URI}/upload/${tipo}/${id}`, formData )
-    .pipe( map ( (resp:any)=> {
-      return resp.imageBD;
+    .pipe( map ( async (resp:any)=> {
+      return await resp.imageBD;
     }))
   }
   
   updateAnuncio(anuncio: any, id:string){
 
     return this.http.put(`${environment.API_URI}/anuncio/${id}`, anuncio)
-    .pipe( map ((resp:any) => {
-      return resp.anuncioBD
+    .pipe( map ( async (resp:any) => {
+      return await resp.anuncioBD
     }))
   }
   
@@ -85,14 +85,14 @@ export class AnunciosService {
   // }
 
   getImages(idAnuncio: string){
-    return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).pipe( map ( (resp:any) => {
-      return resp.imagesAnuncio;
+    return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).pipe( map ( async (resp:any) => {
+      return await resp.imagesAnuncio;
     }))
   }
 
   deleteImage(id:string){
-    return this.http.delete(`${environment.API_URI}/image/${id}`).pipe( map ((resp:any) => {
-      return resp.imageBDBorrada;
+    return this.http.delete(`${environment.API_URI}/image/${id}`).pipe( map ( async (resp:any) => {
+      return await resp.imageBDBorrada;
     })) ;
   }
 
