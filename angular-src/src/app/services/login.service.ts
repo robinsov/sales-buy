@@ -50,4 +50,11 @@ export class LoginService {
       this.router.navigate(['/login']);
     }
   }
+
+  estaAutenticado(): boolean{
+    let aut: string = localStorage.getItem('token');
+    if(aut){
+      return true
+    }
+  }
 }
