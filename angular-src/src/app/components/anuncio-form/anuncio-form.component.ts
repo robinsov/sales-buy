@@ -144,7 +144,7 @@ export class AnuncioFormComponent implements OnInit {
 
         while (this.imagenesCargadas < this.archivos.length) {
           
-          await this.cargarImagen(resp._id, 'anuncios', this.archivos[this.imagenesCargadas] );
+           this.cargarImagen(await (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
 
           this.imagenesCargadas++;
           
@@ -154,7 +154,7 @@ export class AnuncioFormComponent implements OnInit {
 
         await Swal.fire(
             "Anuncio Guardado!",
-            `${resp.tituloAnuncio}`,
+            `${ await resp.tituloAnuncio}`,
             "success"
         );
         
@@ -179,7 +179,7 @@ export class AnuncioFormComponent implements OnInit {
 
         await Swal.fire(
             "Anuncio Actualizado!",
-            `${resp.tituloAnuncio}`,
+            `${await resp.tituloAnuncio}`,
             "success"
         );
         
