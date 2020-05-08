@@ -23,7 +23,7 @@ export class AnunciosComponent implements OnInit {
   ngOnInit(): void {
     this.activateRoute.params.subscribe(async resp => {
       this.source = await resp['source'];
-      if(resp['valor']){
+      if( await resp['valor']){
         this.valor = await resp['valor'];
 
         if(this.source === 'search') {

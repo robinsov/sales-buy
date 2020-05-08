@@ -16,8 +16,8 @@ export class MisAnunciosComponent implements OnInit {
   source: string;
   constructor(private _anuncioService: AnunciosService,
               private activateRoute: ActivatedRoute) {
-              this.activateRoute.params.subscribe(resp=> {
-                this.source = resp['source'];
+              this.activateRoute.params.subscribe(async resp=> {
+                this.source = await resp['source'];
                 
               })
   }

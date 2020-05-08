@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class NavigationComponent implements OnInit {
 
   nombreVendedor: string;
-  img;
+  img: any;
   termino: string;
   
   id: string

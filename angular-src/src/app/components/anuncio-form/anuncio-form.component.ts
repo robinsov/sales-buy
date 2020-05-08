@@ -47,9 +47,9 @@ export class AnuncioFormComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(async (resp) => {
       this.source = await resp["source"];
-      if (resp["source"] != "add") {
+      if ( await resp["source"] != "add") {
         this.beditar = true;
-        this.getAnuncio(resp["source"]);
+        this.getAnuncio( await resp["source"]);
       }
     });
   }
@@ -67,8 +67,8 @@ export class AnuncioFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarStorage();
-    this._categoriaService.getCategorias().subscribe((resp) => {
-      this.categorias = resp;
+    this._categoriaService.getCategorias().subscribe( async (resp) => {
+      this.categorias = await resp;
     });
   }
 
@@ -100,7 +100,7 @@ export class AnuncioFormComponent implements OnInit {
       if (result.value) {
         this._anuncioServicio.deleteImage(id).subscribe( async resp => {
           this.getAnuncio(this.source);
-          Swal.fire(
+          await Swal.fire(
             "Imagen Borrada!",
             "success"
           );
@@ -188,7 +188,7 @@ export class AnuncioFormComponent implements OnInit {
     }
   }
 
-  async cargarImagen(id:string, tipo:string, imagen: any) {
+  cargarImagen(id:string, tipo:string, imagen: any) {
     this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe();
   }
 

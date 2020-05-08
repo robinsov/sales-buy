@@ -36,7 +36,7 @@ export class PerfilComponent implements OnInit {
       if(await resp.idImg){
         this.bImg = true;
       }else{
-        Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
+        await Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
       }
       this.vendedor = await resp;
     })
@@ -57,10 +57,10 @@ export class PerfilComponent implements OnInit {
       
       this._loginService.img.emit( await resp.img);
       if(this.bImg === false){
-        this.updateImagen( await resp._id, 'vendedores', this.vendedor.img );
+        this.updateImagen(  resp._id, 'vendedores', this.vendedor.img );
       }
 
-       this.router.navigate(['/anuncios', 'nav']);
+      await this.router.navigate(['/anuncios', 'nav']);
     })
 
   }

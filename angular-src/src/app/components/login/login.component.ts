@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit {
     }
 
     this._login.login(vendedor).subscribe( async (resp:any) => {
-      localStorage.setItem('token', resp.token);
-      localStorage.setItem('vendedor', resp.vendedor.nombre);
-      localStorage.setItem('id', resp.vendedor._id )
-      localStorage.setItem('email', resp.vendedor.email);
+      localStorage.setItem('token', await resp.token);
+      localStorage.setItem('vendedor', await resp.vendedor.nombre);
+      localStorage.setItem('id', await resp.vendedor._id )
+      localStorage.setItem('email', await resp.vendedor.email);
       let img = await resp.vendedor.img;
       this._login.img.emit(img);
 

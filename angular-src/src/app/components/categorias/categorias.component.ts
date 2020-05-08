@@ -23,9 +23,8 @@ export class CategoriasComponent implements OnInit {
   }
 
   getCategorias(){
-    this._categoriasService.getCategorias().subscribe( resp => {
-      this.categorias = resp
-      console.log(resp);
+    this._categoriasService.getCategorias().subscribe( async resp => {
+      this.categorias = await resp
     })
   }
 

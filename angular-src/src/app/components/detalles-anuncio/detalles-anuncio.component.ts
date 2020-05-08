@@ -17,9 +17,9 @@ export class DetallesAnuncioComponent implements OnInit {
   
   constructor(private _anuncioService: AnunciosService,
               private activateRouter: ActivatedRoute) {
-                this.activateRouter.params.subscribe( resp => {
-                  this.idAnuncio = resp['id'];
-                  this.getAnunci( resp['id']);
+                this.activateRouter.params.subscribe( async resp => {
+                  this.idAnuncio = await resp['id'];
+                  this.getAnunci( await resp['id']);
                 })
               }
 
@@ -33,7 +33,7 @@ export class DetallesAnuncioComponent implements OnInit {
 
   getAnunci(id: string){
     this._anuncioService.getAnuncio(id).subscribe( async ( resp: any) => {
-      console.log(resp);
+      
       this.anuncio = await resp.anuncioBD
     })
   }
