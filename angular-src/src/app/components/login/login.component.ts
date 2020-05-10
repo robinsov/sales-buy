@@ -4,7 +4,7 @@ import { LoginService } from "src/app/services/login.service";
 import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import Swal from "sweetalert2";
-import { element } from "protractor";
+
 
 declare const gapi: any;
 

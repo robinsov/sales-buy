@@ -92,7 +92,7 @@ app.post("/login/google", async(req, res) => {
         });
     });
 
-    console.log(googleUser);
+
 
     Vendedor.findOne({ email: googleUser.email }, (err, vendedorDB) => {
         if (err) {
@@ -103,7 +103,7 @@ app.post("/login/google", async(req, res) => {
                 errros: err
             });
         }
-        console.log('encontrado', vendedorDB);
+
 
         if (vendedorDB) {
             if (vendedorDB.google === false) {
@@ -135,7 +135,7 @@ app.post("/login/google", async(req, res) => {
             vendedor.google = true;
             vendedor.password = ':)'
 
-            console.log('vendedor a guardar', vendedor);
+
 
             vendedor.save((err, vendedorDB) => {
 
@@ -145,7 +145,7 @@ app.post("/login/google", async(req, res) => {
                     process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN }
                 );
 
-                console.log(vendedorDB);
+
 
                 // vendedorDB.password = ":)";
                 res.json({

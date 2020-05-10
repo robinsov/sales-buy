@@ -190,7 +190,7 @@ app.post("/anuncio", verificaToken, (req, res) => {
         fechaAnuncio: new Date().getTime(),
         vendedor: req.vendedor,
     });
-    console.log(req.vendedor);
+
 
     anuncio.save((err, anuncioBD) => {
         if (err) {

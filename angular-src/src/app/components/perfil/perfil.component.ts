@@ -28,15 +28,15 @@ export class PerfilComponent implements OnInit {
                 })
               }
 
+
+
   ngOnInit(): void {
   }
 
   getPerfilCompleto(id:string){
     this._vendedorService.getVendedor(id).subscribe( async (resp:any) => {
-      if(  resp.idImg){
+      if(  resp.img ){
         this.bImg = true;
-      }else{
-          Swal.fire('Actualice sus datos', 'Asi todos tendran donde contactarte', 'warning');
       }
       this.vendedor =   resp;
     })

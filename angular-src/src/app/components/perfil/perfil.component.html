@@ -33,7 +33,7 @@
                         {{ vendedor.fechaSubs | date }}
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-block">
+                    <button [disabled]="f.invalid" type="submit" class="btn btn-success btn-block">
             <i class="fa fa-save"></i>
             Actualizar
           </button>
@@ -44,8 +44,9 @@
             <i class="fa fa-back"></i>
             Cancelar
           </button>
-
-
+                    <div *ngIf="f.invalid">
+                        <p class="alet alert-warning">Es necesario que digite todos los datos para que todos puedan contactarte</p>
+                    </div>
                 </form>
             </div>
         </div>

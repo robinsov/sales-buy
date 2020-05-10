@@ -5,7 +5,6 @@ import { AnunciosService } from "src/app/services/anuncios.service";
 
 import Swal from "sweetalert2";
 
-
 import { Router, ActivatedRoute } from "@angular/router";
 import { IImage } from "../models/image.model";
 
@@ -29,7 +28,7 @@ export class AnuncioFormComponent implements OnInit {
   img: any;
   categoria: string;
   vendedor: string;
-  idVendedor:string;
+  idVendedor: string;
   email: string;
   fecha: any;
   token: string;
@@ -45,49 +44,46 @@ export class AnuncioFormComponent implements OnInit {
   ) {
     this.cargarStorage();
 
-    this.activatedRoute.params.subscribe(  (resp) => {
-      this.source =   resp["source"];
-      if (   resp["source"] != "add") {
+    this.activatedRoute.params.subscribe((resp) => {
+      this.source = resp["source"];
+      if (resp["source"] != "add") {
         this.beditar = true;
-        this.getAnuncio(   resp["source"]);
+        this.getAnuncio(resp["source"]);
       }
     });
   }
 
   cargarStorage() {
-    
-      this.idVendedor = localStorage.getItem('id');
-      this.vendedor = localStorage.getItem("vendedor");
-      this.email = localStorage.getItem("email");
-      this.token = localStorage.getItem("token");
-      this.fecha = new Date().getTime();
-      
-    
+    this.idVendedor = localStorage.getItem("id");
+    this.vendedor = localStorage.getItem("vendedor");
+    this.email = localStorage.getItem("email");
+    this.token = localStorage.getItem("token");
+    this.fecha = new Date().getTime();
   }
 
   ngOnInit(): void {
     this.cargarStorage();
-    this._categoriaService.getCategorias().subscribe(   (resp) => {
-      this.categorias =   resp;
+    this._categoriaService.getCategorias().subscribe((resp) => {
+      this.categorias = resp;
     });
   }
 
   getAnuncio(id: string) {
-    this._anuncioServicio.getAnuncio(id).subscribe(   (resp: any) => {
-       this.tituloAnuncio =   resp.anuncioBD.tituloAnuncio;
-       this.precioUni =   resp.anuncioBD.precioUni;
-       this.descripcion =   resp.anuncioBD.descripcion;
-       this.ciudad =   resp.anuncioBD.ciudad;
-       this.imgTemp =   resp.anuncioBD.img;
-      this.categoria =   resp.anuncioBD.categoria._id;
+    this._anuncioServicio.getAnuncio(id).subscribe((resp: any) => {
+      this.tituloAnuncio = resp.anuncioBD.tituloAnuncio;
+      this.precioUni = resp.anuncioBD.precioUni;
+      this.descripcion = resp.anuncioBD.descripcion;
+      this.ciudad = resp.anuncioBD.ciudad;
+      this.imgTemp = resp.anuncioBD.img;
+      this.categoria = resp.anuncioBD.categoria._id;
     });
 
-    this._anuncioServicio.getImages(this.source).subscribe(   resp => {
-      this.archivosEdit =   resp;
-    })
+    this._anuncioServicio.getImages(this.source).subscribe((resp) => {
+      this.archivosEdit = resp;
+    });
   }
 
-  borrarImage(id: string){
+  borrarImage(id: string) {
     Swal.fire({
       title: "Estas seguro?",
       text: "No puedes recuperarla!",
@@ -98,16 +94,12 @@ export class AnuncioFormComponent implements OnInit {
       confirmButtonText: "Si, Borralo!",
     }).then((result) => {
       if (result.value) {
-        this._anuncioServicio.deleteImage(id).subscribe(   resp => {
+        this._anuncioServicio.deleteImage(id).subscribe((resp) => {
           this.getAnuncio(this.source);
-            Swal.fire(
-            "Imagen Borrada!",
-            "success"
-          );
+          Swal.fire("Imagen Borrada!", "success");
         });
       }
     });
-
   }
 
   processFile(imageInput) {
@@ -121,8 +113,6 @@ export class AnuncioFormComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  
-
   guardarAnuncio(event: any) {
     this.cargarStorage();
 
@@ -132,64 +122,60 @@ export class AnuncioFormComponent implements OnInit {
       descripcion: this.descripcion,
       ciudad: this.ciudad,
       categoria: this.categoria,
-      vendedor: localStorage.getItem('id'),
+      vendedor: localStorage.getItem("id"),
     };
 
-    console.log('anuncio a guardar', anuncio);
+    console.log("anuncio a guardar", anuncio);
     this.archivos = event;
 
     if (this.source === "add") {
-      this._anuncioServicio.createAnuncio(anuncio, this.token).subscribe(  (resp:any) => {
-        
+      this._anuncioServicio
+        .createAnuncio(anuncio, this.token)
+        .subscribe(async (resp: any) => {
 
-        while (this.imagenesCargadas < this.archivos.length) {
-          
-           this.cargarImagen(  (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
+          while (this.imagenesCargadas < this.archivos.length) {
+            this.cargarImagen(
+              await resp._id,
+              "anuncios",
+              this.archivos[this.imagenesCargadas]
+            );
 
-          this.imagenesCargadas++;
-          
-        }  
-          
-        this.imagenesCargadas = 0;
+            this.imagenesCargadas++;
+          }
 
-          Swal.fire(
-            "Anuncio Guardado!",
-            `${   resp.tituloAnuncio}`,
-            "success"
-        );
-        
+          this.imagenesCargadas = 0;
+
+          await Swal.fire("Anuncio Guardado!", `${resp.tituloAnuncio}`, "success");
+
           this.router.navigate(["/anuncios", "nav"]);
-
-      });
+        });
 
     } else {
-      
-      this._anuncioServicio.updateAnuncio(anuncio, this.source).subscribe(  (resp:any) => {
-        this.permiteCargar = false;
+      this._anuncioServicio
+        .updateAnuncio(anuncio, this.source)
+        .subscribe((resp: any) => {
+          if (this.archivos.length > 0) {
+            while (this.imagenesCargadas < this.archivos.length) {
+              this.cargarImagen(
+                resp._id,
+                "anuncios",
+                this.archivos[this.imagenesCargadas]
+              );
 
-        while (this.imagenesCargadas < this.archivos.length) {
-          
-           this.cargarImagen(  (resp._id), 'anuncios', this.archivos[this.imagenesCargadas] );
+              this.imagenesCargadas++;
+            }
+          }
 
-          this.imagenesCargadas++;
-          
-        }  
-          
-        this.imagenesCargadas = 0;
+          this.imagenesCargadas = 0;
 
-          Swal.fire(
-            "Anuncio Actualizado!",
-            `${  resp.tituloAnuncio}`,
-            "success"
-        );
-        
+          Swal.fire("Anuncio Actualizado!", `${resp.tituloAnuncio}`, "success");
+
           this.router.navigate(["/anuncios", "nav"]);
-      });
+        });
     }
   }
 
-  cargarImagen(id:string, tipo:string, imagen: any) {
+  cargarImagen(id: string, tipo: string, imagen: any) {
     this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe();
   }
-
 }
