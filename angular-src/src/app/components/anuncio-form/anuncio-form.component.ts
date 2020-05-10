@@ -134,8 +134,8 @@ export class AnuncioFormComponent implements OnInit {
         .subscribe(async (resp: any) => {
 
           while (this.imagenesCargadas < this.archivos.length) {
-            this.cargarImagen(
-              await resp._id,
+            await this.cargarImagen(
+              resp._id,
               "anuncios",
               this.archivos[this.imagenesCargadas]
             );
@@ -175,7 +175,7 @@ export class AnuncioFormComponent implements OnInit {
     }
   }
 
-  cargarImagen(id: string, tipo: string, imagen: any) {
+  async cargarImagen(id: string, tipo: string, imagen: any) {
     this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe();
   }
 }
