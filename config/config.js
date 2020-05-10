@@ -48,3 +48,6 @@ process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo';
 
 
 process.env.URLDB = urlDB;
+
+//google
+module.exports.CLIENT_ID = '344747766238-806kfi2jd9gegle3jn4ks4gdcjehekq1.apps.googleusercontent.com'

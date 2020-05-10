@@ -36,7 +36,7 @@ let vendedorSchema = new Schema({
     },
     fechaSubs: {
         type: Date,
-        required: true
+        required: false
     },
     telefono: {
         type: String,
@@ -45,6 +45,10 @@ let vendedorSchema = new Schema({
     ciudad: {
         type: String,
         required: false
+    },
+    google: {
+        type: Boolean,
+        default: false
     },
     estado: {
         type: Boolean,

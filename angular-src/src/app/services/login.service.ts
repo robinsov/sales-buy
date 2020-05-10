@@ -52,9 +52,19 @@ export class LoginService {
   }
 
   estaAutenticado(): boolean{
-    let aut: string = localStorage.getItem('token');
+    let aut: string = this.token;
     if(aut){
       return true
     }
+  }
+
+  registroGoogle(token: string){
+    return this.http.post(`${environment.API_URI}/login/google`, {token}).pipe( map ((resp:any) => {
+      localStorage.setItem('vendedor', resp.vendedorDB.nombre);
+      this.nombrelisto.emit(resp.vendedorDB.nombre);
+      this.token = resp.token;
+      this.tokenListo.emit(resp.token);
+      return resp;
+    }));
   }
 }

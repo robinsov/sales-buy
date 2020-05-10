@@ -16,36 +16,36 @@ const routes: Routes = [
   {
     path: "anuncios/:source",
     component: AnunciosComponent,
-    canActivate: [AuthGuard],
+    
   },
   {
     path: "anuncios/:source/:valor",
     component: AnunciosComponent,
-    canActivate: [AuthGuard],
+    
   },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   {
     path: "categorias",
     component: CategoriasComponent,
-    canActivate: [AuthGuard],
+    
   },
   {
     path: "misAnuncios",
     component: MisAnunciosComponent,
-    canActivate: [AuthGuard],
+    
   },
-  { path: "perfil/:id", component: PerfilComponent, canActivate: [AuthGuard] },
+  { path: "perfil/:id", component: PerfilComponent,  },
   {
     path: "detalles/:id",
     component: DetallesAnuncioComponent,
-    canActivate: [AuthGuard],
+    
   },
 
   {
     path: "anuncio/:source",
     component: AnuncioFormComponent,
-    canActivate: [AuthGuard],
+    
   },
 ];
 
