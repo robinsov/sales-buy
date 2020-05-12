@@ -4,8 +4,8 @@
             <div class="card-body">
                 <form ngNativeValidate #f="ngForm" (ngSubmit)="actualizar()">
                     <div class="form-group">
-                        <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" class="card-img-top" />
-                        <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" class="card-img-top" />
+                        <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" loading="lazy" class="card-img-top" />
+                        <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" loading="lazy" class="card-img-top" />
                     </div>
 
                     <div class="form-group">
