@@ -184,7 +184,8 @@ function imagenAnuncio(id, res, archivo) {
         }
 
         try {
-            const result = await cloudinary.v2.uploader.upload(archivo.tempFilePath);
+            const result = await cloudinary.v2.uploader.upload(archivo.tempFilePath, { q_auto: "good", width: "0.75", crop: "scale" });
+
             anuncioBD.img = result.url;
             anuncioBD.idImg = result.public_id;
 

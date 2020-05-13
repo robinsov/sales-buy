@@ -6,7 +6,7 @@ export interface Vendedor {
     img?: any,
     idImg?: string,
     fechaSubs?: any,
-    telefono?: Date,
+    telefono?: string,
     estado?: string,
     ciudad?: string,
 }

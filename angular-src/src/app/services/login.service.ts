@@ -1,38 +1,43 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Vendedor } from '../components/models/vendedor.model';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService implements OnInit{
 
-  token: string;
-
-  nombrelisto = new EventEmitter<any>();
-
-  tokenListo = new EventEmitter<any>();
-
+  token: string
   img = new EventEmitter;
+
+  public changeLoginStatusSubject = new Subject<boolean>();
+  public changeLoginStatus$ = this.changeLoginStatusSubject.asObservable();
 
   constructor(private http: HttpClient,
               private router : Router) { 
-              if(localStorage.getItem('token')){
-                this.token = localStorage.getItem('token');
-              }
-              
   }
+
+  ngOnInit(): void {
+    
+  }
+
 
   login(vendedor: Vendedor){
     return this.http.post(`${environment.API_URI}/login`, vendedor).pipe( map ((resp:any) => {
-      localStorage.setItem('vendedor', resp.vendedor.nombre);
-      this.nombrelisto.emit(resp.vendedor.nombre);
-      this.tokenListo.emit(resp.token);
+      this.token = resp.token;
+      return resp;
+    }));
+  }
+
+  registroGoogle(token: string){
+    return this.http.post(`${environment.API_URI}/login/google`, {token}).pipe( map ((resp:any) => {
+      this.token = resp.token;
       return resp;
     }));
   }
@@ -46,25 +51,16 @@ export class LoginService {
       localStorage.removeItem('token');
       localStorage.removeItem('id');
       localStorage.removeItem('vendedor');
-      this.nombrelisto.emit(null);
       this.router.navigate(['/login']);
     }
   }
 
-  estaAutenticado(): boolean{
-    let aut: string = this.token;
-    if(aut){
-      return true
+  estaLogueado(): boolean{
+    if(localStorage.getItem('token')){
+      this.token = localStorage.getItem('token')
+      return (this.token.length > 10)? true: false;
+    }else{
+      false
     }
-  }
-
-  registroGoogle(token: string){
-    return this.http.post(`${environment.API_URI}/login/google`, {token}).pipe( map ((resp:any) => {
-      localStorage.setItem('vendedor', resp.vendedorDB.nombre);
-      this.nombrelisto.emit(resp.vendedorDB.nombre);
-      this.token = resp.token;
-      this.tokenListo.emit(resp.token);
-      return resp;
-    }));
   }
 }

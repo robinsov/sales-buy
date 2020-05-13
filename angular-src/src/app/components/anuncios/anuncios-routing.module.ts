@@ -6,38 +6,46 @@ import { PerfilComponent } from '../perfil/perfil.component';
 import { DetallesAnuncioComponent } from '../detalles-anuncio/detalles-anuncio.component';
 import { AnuncioFormComponent } from '../anuncio-form/anuncio-form.component';
 import { CategoriasComponent } from '../categorias/categorias.component';
+import { CanDeactiveGuard } from 'src/app/guards/can-deactive.guard';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: "anuncios/:source/:valor",
-    component: AnunciosComponent
+    component: AnunciosComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "anuncios/:source",
-    component: AnunciosComponent
+    component: AnunciosComponent,
+    canActivate: [AuthGuard]
   },
   {
       path: "misAnuncios",
-      component: MisAnunciosComponent
+      component: MisAnunciosComponent,
+      canActivate: [AuthGuard]
   },
   
-  { path: "perfil/:id", component: PerfilComponent, canActivate: [] },
+  { path: "perfil/:id", component: PerfilComponent, 
+    canDeactivate: [CanDeactiveGuard],
+    canActivate: [AuthGuard] },
   {
     path: "detalles/:id",
     component: DetallesAnuncioComponent,
-    canActivate: [],
+    canActivate: [AuthGuard]
   },
   {
     path: "categorias",
     component: CategoriasComponent,
-    canActivate: [],
+    canActivate: [AuthGuard]
   },
 
   {
     path: "anuncio/:source",
     component: AnuncioFormComponent,
-    canActivate: [],
+    canActivate: [AuthGuard]
   },
+  { path: "", redirectTo: "/login", pathMatch: "full" },
 ];
 
 @NgModule({

@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="nombreVendedor">
-    <a class="navbar-brand" [routerLink]="['/perfil', id]">
-        <img *ngIf="img" [src]="img | imagen: 'vendedores'" width="30" height="30">
-    </a>
     <div class="container">
+        <a class="navbar-brand" [routerLink]="['/perfil', id]">
+            <img *ngIf="img" [src]="img | imagen: 'vendedores'" width="30" height="30">
+        </a>
 
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

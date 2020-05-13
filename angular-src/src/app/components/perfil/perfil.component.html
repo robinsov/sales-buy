@@ -2,14 +2,14 @@
     <div class="col-md-6 offset-md-2">
         <div class="card d-flex justify-content-between align-items-center" *ngIf="vendedor">
             <div class="card-body">
-                <form ngNativeValidate #f="ngForm" (ngSubmit)="actualizar()">
+                <form ngNativeValidate #f="ngForm" (change)="cambiosForm(f)" (ngSubmit)="actualizar(f)">
                     <div class="form-group">
                         <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" loading="lazy" class="card-img-top" />
                         <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" loading="lazy" class="card-img-top" />
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" autofocus [(ngModel)]="vendedor.nombre" type="text" name="nombre" required />
+                        <input #nombre class="form-control" autofocus [(ngModel)]="vendedor.nombre" type="text" name="nombre" required />
                     </div>
                     <div class="form-group">
                         <input disabled class="form-control" [(ngModel)]="vendedor.email" type="email" name="email" required />
@@ -24,28 +24,29 @@
                         <input [disabled]="bImg" #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" required/>
                     </div>
                     <div class="form-group">
-                        <button *ngIf="vendedor.img" (click)="bImg = !bImg" type="button" class="btn btn-outline-warning btn-block">
-              <i class="fa fa-save"></i>
-              Actualizar imagen tambien
-            </button>
+                        <button *ngIf="formularioListo" (click)="bImg = !bImg" type="button" class="btn btn-outline-warning btn-block">
+                        <i class="fa fa-save"></i>
+                        Actualizar imagen tambien
+                        </button>
                     </div>
                     <div class="card-footer bg-transparent border-success text-center">
                         {{ vendedor.fechaSubs | date }}
                     </div>
 
                     <button [disabled]="f.invalid" type="submit" class="btn btn-success btn-block">
-            <i class="fa fa-save"></i>
-            Actualizar
-          </button>
+                        <i class="fa fa-save"></i>
+                        Actualizar
+                    </button>
 
                     <hr>
 
+
                     <button type="button" [routerLink]="['/anuncios', 'nav']" class="btn btn-danger btn-block">
-            <i class="fa fa-back"></i>
-            Cancelar
-          </button>
-                    <div *ngIf="f.invalid">
-                        <p class="alet alert-warning">Es necesario que digite todos los datos para que todos puedan contactarte</p>
+                        <i class="fa fa-back"></i>
+                        Cancelar
+                    </button>
+                    <div class="mt-3 text-center" *ngIf="f.invalid">
+                        <p class="alet alert-warning">Es necesario completar todos los campos, así los demás pueden contactarte</p>
                     </div>
                 </form>
             </div>

@@ -18,10 +18,10 @@ import { SharedModule } from './components/shared/shared/shared.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule,
   ],
   providers: [
     

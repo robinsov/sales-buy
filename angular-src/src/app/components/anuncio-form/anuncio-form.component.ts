@@ -36,6 +36,8 @@ export class AnuncioFormComponent implements OnInit {
   imgTemp: string;
   source: string;
   beditar: boolean = false;
+
+  cont:number = 0;
   constructor(
     private _categoriaService: CategoriasService,
     private _anuncioServicio: AnunciosService,
@@ -141,14 +143,18 @@ export class AnuncioFormComponent implements OnInit {
             );
 
             this.imagenesCargadas++;
+
+
+            if(this.imagenesCargadas == this.archivos.length){
+              await Swal.fire("Anuncio Actualizado!", `${resp.tituloAnuncio}`, "success");
+              await this.router.navigate(["/anuncios", "nav"]);
+            }
+
           }
 
           this.imagenesCargadas = 0;
-
-          await Swal.fire("Anuncio Guardado!", `${resp.tituloAnuncio}`, "success");
-
-          this.router.navigate(["/anuncios", "nav"]);
-        });
+          });
+          
 
     } else {
       this._anuncioServicio
@@ -165,17 +171,16 @@ export class AnuncioFormComponent implements OnInit {
               this.imagenesCargadas++;
             }
           }
-
           this.imagenesCargadas = 0;
-
-          Swal.fire("Anuncio Actualizado!", `${resp.tituloAnuncio}`, "success");
-
-          this.router.navigate(["/anuncios", "nav"]);
+            Swal.fire("Anuncio Actualizado!", `${resp.tituloAnuncio}`, "success");
+            this.router.navigate(["/anuncios", "nav"]);
         });
     }
   }
 
   async cargarImagen(id: string, tipo: string, imagen: any) {
-    this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe();
+    this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe(resp => {
+      return this.cont ++;
+    });
   }
 }

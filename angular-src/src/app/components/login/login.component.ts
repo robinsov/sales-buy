@@ -16,17 +16,27 @@ declare const gapi: any;
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
-  recordarme: boolean;
-
+  recordarme: boolean = true;
+  img: string = '';
   auth2: any;
 
   token: string;
 
   constructor(private _login: LoginService, private router: Router, private route: ActivatedRoute,
-    private ngZone: NgZone,) {}
+    private ngZone: NgZone,) {
+    }
 
   ngOnInit(): void {
     this.googleInit();
+
+    if(this._login.estaLogueado()){
+      this.router.navigate(['/anuncios', 'nav']);
+    }
+
+    if (localStorage.getItem('img')) {
+      this.img = localStorage.getItem('img')
+      this._login.img.emit(this.img);
+    }
 
     if (this.recordarme) {
       this.email = localStorage.getItem("email");
@@ -54,48 +64,48 @@ export class LoginComponent implements OnInit {
       console.log(token);
       this._login.registroGoogle(token).subscribe(
         (resp: any) => {
-          console.log(resp);
-          let img: string;
+          
           localStorage.setItem("token", resp.token);
           localStorage.setItem("vendedor", resp.vendedorDB.nombre);
           localStorage.setItem("id", resp.vendedorDB._id);
           localStorage.setItem("email", resp.vendedorDB.email);
           
           if (resp.vendedorDB.img) {
-            img = resp.vendedorDB.img;
-            this._login.img.emit(img);
+            localStorage.setItem("img", resp.vendedorDB.img);
+            this.img = resp.vendedorDB.img;
+            this._login.img.emit(this.img);
           }
           
-          // this.router.navigate(["/perfil", resp.vendedorDB._id]);
+          
           this.ngZone.run(()=>{
             this.router.navigate(["/perfil", resp.vendedorDB._id],{relativeTo:this.route}).then();
           });
         }
-      );
-    });
-  }
-
-  login(form: NgForm) {
-    if (form.invalid) {
-      return;
+        );
+      });
     }
-
-    let vendedor: Vendedor = {
-      email: this.email,
-      password: this.password,
-    };
-
-    this._login.login(vendedor).subscribe(
-      async (resp: any) => {
-        let img: string;
-        localStorage.setItem("token", resp.token);
-        localStorage.setItem("vendedor", resp.vendedor.nombre);
-        localStorage.setItem("id", resp.vendedor._id);
-        localStorage.setItem("email", resp.vendedor.email);
+    
+    login(form: NgForm) {
+      if (form.invalid) {
+        return;
+      }
+      
+      let vendedor: Vendedor = {
+        email: this.email,
+        password: this.password,
+      };
+      
+      this._login.login(vendedor).subscribe(
+        async (resp: any) => {
+          localStorage.setItem("token", resp.token);
+          localStorage.setItem("vendedor", resp.vendedor.nombre);
+          localStorage.setItem("id", resp.vendedor._id);
+          localStorage.setItem("email", resp.vendedor.email);
 
         if (resp.vendedor.img) {
-          img = resp.vendedor.img;
-          this._login.img.emit(img);
+          localStorage.setItem("img", resp.vendedor.img);
+          this.img = resp.vendedor.img;
+          this._login.img.emit(this.img);
         }
 
         this.router.navigate(["/perfil", resp.vendedor._id]);

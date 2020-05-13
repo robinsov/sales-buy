@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class NavigationComponent implements OnInit {
 
   nombreVendedor: string;
-  img: any;
+  img: string;
   termino: string;
   
   id: string
@@ -25,14 +25,12 @@ export class NavigationComponent implements OnInit {
       this.nombreVendedor = localStorage.getItem('vendedor');
     }
     
-    this._loginService.img.subscribe( async resp => {
-      this.img =  resp
-    })
+    if(localStorage.getItem('img')){
+      this.img = localStorage.getItem('img')
+    }
+    
     
 
-    this._loginService.nombrelisto.subscribe( async resp => {
-      this.nombreVendedor =   resp;
-    })
   }
 
   logout(){

@@ -6,7 +6,6 @@ import { AuthGuard } from "./guards/auth.guard";
 import { PaginasComponent } from './components/anuncios/paginas.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/login", pathMatch: "full" },
   {
     path: '',
     component: PaginasComponent,
@@ -14,6 +13,7 @@ const routes: Routes = [
   },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
+  { path: "", redirectTo: "/login", pathMatch: "full" },
   
 ];
 
