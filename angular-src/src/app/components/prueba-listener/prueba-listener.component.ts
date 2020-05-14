@@ -8,6 +8,9 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class PruebaListenerComponent implements OnInit {
 
   @Input('boton') source: string;
+  @Input('completo') completo: boolean;
+  @Input('error') error: boolean;
+  @Input('cargando') cargando: boolean;
 
   
   @Output() cargarImages = new EventEmitter<any>();

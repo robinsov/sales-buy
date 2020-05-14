@@ -14,7 +14,8 @@ import { NgForm } from '@angular/forms';
 })
 export class PerfilComponent implements OnInit, PuedeDesactivar, AfterViewInit {
 
-  @ViewChild('f') formulario: any;
+  // @ViewChild('nameRef') nameRef: ElementRef;
+  // @ViewChildren('f') forma: QueryList<any>;
 
   vendedor: Vendedor;
   form: NgForm;
@@ -30,12 +31,10 @@ export class PerfilComponent implements OnInit, PuedeDesactivar, AfterViewInit {
                 })
   }
   ngAfterViewInit(): void {
-    
-    
   }
   
   ngOnInit(): void {
-    
+    // console.log(this.form);
   }
   
   getPerfilCompleto(id:string){

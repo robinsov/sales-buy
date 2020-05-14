@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 import { Router, ActivatedRoute } from "@angular/router";
 import { IImage } from "../models/image.model";
+import { Observable, Subscriber } from 'rxjs';
 
 @Component({
   selector: "app-anuncio-form",
@@ -37,7 +38,9 @@ export class AnuncioFormComponent implements OnInit {
   source: string;
   beditar: boolean = false;
 
-  cont:number = 0;
+  completo: boolean = false;
+  error: boolean = false;
+  cargando: boolean = false;
   constructor(
     private _categoriaService: CategoriasService,
     private _anuncioServicio: AnunciosService,
@@ -127,60 +130,67 @@ export class AnuncioFormComponent implements OnInit {
       vendedor: localStorage.getItem("id"),
     };
 
-    console.log("anuncio a guardar", anuncio);
     this.archivos = event;
 
     if (this.source === "add") {
       this._anuncioServicio
         .createAnuncio(anuncio, this.token)
         .subscribe(async (resp: any) => {
-
-          while (this.imagenesCargadas < this.archivos.length) {
-            await this.cargarImagen(
-              resp._id,
-              "anuncios",
-              this.archivos[this.imagenesCargadas]
-            );
+          
+          
+    
+        let cont = 0;
+          while(this.imagenesCargadas < this.archivos.length){
+        this._anuncioServicio.uploadImage(resp._id, "anuncios", this.archivos[this.imagenesCargadas]).subscribe( async (image:any) => {
+              
+              if(image._id){
+                this.cargando = true;
+                cont ++;
+                if(cont == this.archivos.length){
+                  this.cargando = false;
+                  this.error  = false;
+                  this.completo  = true;
+                  cont = 0;
+                }
+              }
+            }, err =>{
+              this.error = true;
+            })
 
             this.imagenesCargadas++;
-
-
-            if(this.imagenesCargadas == this.archivos.length){
-              await Swal.fire("Anuncio Actualizado!", `${resp.tituloAnuncio}`, "success");
-              await this.router.navigate(["/anuncios", "nav"]);
-            }
-
           }
+      this.imagenesCargadas = 0;
 
-          this.imagenesCargadas = 0;
-          });
+    });
           
 
     } else {
       this._anuncioServicio
         .updateAnuncio(anuncio, this.source)
         .subscribe((resp: any) => {
-          if (this.archivos.length > 0) {
-            while (this.imagenesCargadas < this.archivos.length) {
-              this.cargarImagen(
-                resp._id,
-                "anuncios",
-                this.archivos[this.imagenesCargadas]
-              );
 
-              this.imagenesCargadas++;
-            }
+        let cont = 0;
+          while(this.imagenesCargadas < this.archivos.length){
+        this._anuncioServicio.uploadImage(resp._id, "anuncios", this.archivos[this.imagenesCargadas]).subscribe( async (image:any) => {
+              
+              if(image._id){
+                this.cargando = true;
+                cont ++;
+                if(cont == this.archivos.length){
+                  this.cargando = false;
+                  this.error  = false;
+                  this.completo  = true;
+                  cont = 0;
+                }
+              }
+            }, err => {
+              this.error = true;
+            })
+            this.imagenesCargadas++;
           }
-          this.imagenesCargadas = 0;
-            Swal.fire("Anuncio Actualizado!", `${resp.tituloAnuncio}`, "success");
-            this.router.navigate(["/anuncios", "nav"]);
+      
+      this.imagenesCargadas = 0;
         });
     }
-  }
-
-  async cargarImagen(id: string, tipo: string, imagen: any) {
-    this._anuncioServicio.uploadImage(id, tipo, imagen).subscribe(resp => {
-      return this.cont ++;
-    });
   }
 }

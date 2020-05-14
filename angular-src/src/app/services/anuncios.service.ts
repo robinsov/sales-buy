@@ -50,9 +50,9 @@ export class AnunciosService {
     const formData = new FormData();
     formData.append('archivo', imagen, imagen.name);
 
-    return this.http.put(`${environment.API_URI}/upload/${tipo}/${id}`, formData )
+    return  this.http.put(`${environment.API_URI}/upload/${tipo}/${id}`, formData )
     .pipe( map (  (resp:any)=> {
-      return  resp.imageBD;
+        return resp.imageBD;
     }))
   }
   

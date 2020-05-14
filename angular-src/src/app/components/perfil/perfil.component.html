@@ -2,10 +2,11 @@
     <div class="col-md-6 offset-md-2">
         <div class="card d-flex justify-content-between align-items-center" *ngIf="vendedor">
             <div class="card-body">
+
                 <form ngNativeValidate #f="ngForm" (change)="cambiosForm(f)" (ngSubmit)="actualizar(f)">
                     <div class="form-group">
-                        <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" loading="lazy" class="card-img-top" />
-                        <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" loading="lazy" class="card-img-top" />
+                        <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" class="card-img-top" />
+                        <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" class="card-img-top" />
                     </div>
 
                     <div class="form-group">

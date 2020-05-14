@@ -7,8 +7,8 @@
                 {{ anuncio.tituloAnuncio }}
 
             </div>
-            <img *ngIf="tipo != 'misAnuncios'" [src]="anuncio.img | imagen: 'anuncios'" loading="lazy" class="card-img-top pointer estandar" [routerLink]="['/detalles', anuncio._id]" />
-            <img *ngIf="tipo == 'misAnuncios'" [src]="anuncio.img | imagen: 'anuncios'" loading="lazy" class="card-img-top pointer estandar" [routerLink]="['/anuncio', anuncio._id]" />
+            <img *ngIf="tipo != 'misAnuncios'" [src]="anuncio.img | imagen: 'anuncios'" class="card-img-top pointer estandar" [routerLink]="['/detalles', anuncio._id]" />
+            <img *ngIf="tipo == 'misAnuncios'" [src]="anuncio.img | imagen: 'anuncios'" class="card-img-top pointer estandar" [routerLink]="['/anuncio', anuncio._id]" />
             <div class="card-body">
                 <h5 class="card-title">{{ anuncio.tituloAnuncio }}</h5>
                 <p class="card-text">{{ anuncio.descripcion }}</p>

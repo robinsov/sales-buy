@@ -73,14 +73,23 @@
 </div>
 <div class="row">
     <div class="col">
-        <div class="card card-body text-center">
+        <div *ngIf="!completo" class="card card-body text-center">
 
-            <app-prueba-listener *ngIf="f.valid" [boton]="source" (cargarImages)="guardarAnuncio($event)"></app-prueba-listener>
+            <app-prueba-listener *ngIf="f.valid" [boton]="source" [completo]="completo" [error]="error" [cargando]="cargando" (cargarImages)="guardarAnuncio($event)"></app-prueba-listener>
 
-            <button [routerLink]="['/anuncios', 'nav']" type="button" class="btn btn-outline-danger btn-block">
+            <button *ngIf="!completo" [disabled]="cargando" [routerLink]="['/anuncios', 'nav']" type="button" class="btn btn-outline-danger btn-block">
                 <i class="fa fa-back"></i>
                 Cancelar
             </button>
         </div>
+        <div *ngIf="completo" class="text-center">
+            <p class="alert alert-warning">
+                <i class="fa fa-check"></i> Anuncio '{{tituloAnuncio}}' cargado con exito
+            </p>
+        </div>
+        <button *ngIf="completo" [routerLink]="['/anuncios', 'nav']" type="button" class="btn btn-primary btn-block">
+            <i class="fas fa-arrow-circle-left"></i>
+            Regresar a los Anuncios
+        </button>
     </div>
 </div>
