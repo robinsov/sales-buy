@@ -40,12 +40,12 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="source != 'add'">
         <div class="card-header text-center">
             Imagenes Actuales del anuncio
         </div>
 
-        <table class="table" *ngIf="source != 'add'">
+        <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Imagen</th>
