@@ -1,6 +1,6 @@
 <div class="container my-3">
     <div *ngIf="!completo" class="row">
-        <div class="col-md-4">
+        <div *ngIf="!cargando" class="col-md-4">
             <h3>Seleccione Las imagenes</h3>
             <div appContol [ngClass]="{'file-over': estaSobreDropZone}" (archivoSobre)="archivoSobreDropZone($event)" [archivos]="archivos" (change)="fileChangeEvent($event)" class="drop-zone well">
                 <h4>Suelta las imagenes aquí</h4>
