@@ -17,7 +17,7 @@
         </div>
         <div class="col" style="margin-button: 40px;">
             <h3>Carga de Archivos </h3>
-            <button [disabled]="cargando" *ngIf="bSoloTexto" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()">Acutalizar Anuncio</button>
+            <button [disabled]="cargando" *ngIf="bSoloTexto && source != 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()">Acutalizar Anuncio</button>
 
             <button [disabled]="cargando" *ngIf="source != 'add' && !bSoloTexto " type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Acutalizar Anuncio</button>
             <button [disabled]="cargando" *ngIf="source == 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Guardar Anuncio</button>
