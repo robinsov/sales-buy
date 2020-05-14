@@ -11,6 +11,7 @@ export class PruebaListenerComponent implements OnInit {
   @Input('completo') completo: boolean;
   @Input('error') error: boolean;
   @Input('cargando') cargando: boolean;
+  @Input('bSoloTexto') bSoloTexto: boolean;
 
   
   @Output() cargarImages = new EventEmitter<any>();
@@ -43,6 +44,17 @@ export class PruebaListenerComponent implements OnInit {
     this.archivos = [];
     
     this.permiteCargar = true;
+  }
+
+  eliminarImg(img: any){
+    let newsArchivos: any[] = [...this.archivos];
+    newsArchivos.forEach(element => {
+      if(element.name.indexOf(img.name) >= 0){
+        newsArchivos.splice( element, 1 );
+      }
+    });
+    
+    this.archivos = newsArchivos;
   }
 
   cargarImagenes(){

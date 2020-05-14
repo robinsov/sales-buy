@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 import { IImage } from "../models/image.model";
 import { Observable, Subscriber } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-anuncio-form",
@@ -36,11 +37,12 @@ export class AnuncioFormComponent implements OnInit {
 
   imgTemp: string;
   source: string;
-  beditar: boolean = false;
 
   completo: boolean = false;
   error: boolean = false;
   cargando: boolean = false;
+
+  bSoloTexto: boolean = false;
   constructor(
     private _categoriaService: CategoriasService,
     private _anuncioServicio: AnunciosService,
@@ -52,11 +54,17 @@ export class AnuncioFormComponent implements OnInit {
     this.activatedRoute.params.subscribe((resp) => {
       this.source = resp["source"];
       if (resp["source"] != "add") {
-        this.beditar = true;
         this.getAnuncio(resp["source"]);
       }
     });
   }
+
+  formCambios(cambios: NgForm){
+    this.bSoloTexto = true;
+    
+  }
+
+  
 
   cargarStorage() {
     this.idVendedor = localStorage.getItem("id");
@@ -81,8 +89,13 @@ export class AnuncioFormComponent implements OnInit {
       this.ciudad = resp.anuncioBD.ciudad;
       this.imgTemp = resp.anuncioBD.img;
       this.categoria = resp.anuncioBD.categoria._id;
+      this.getImagenesAnuncio();
     });
 
+    
+  }
+
+  getImagenesAnuncio(){
     this._anuncioServicio.getImages(this.source).subscribe((resp) => {
       this.archivosEdit = resp;
     });
@@ -158,38 +171,49 @@ export class AnuncioFormComponent implements OnInit {
 
             this.imagenesCargadas++;
           }
-      this.imagenesCargadas = 0;
-
-    });
+          this.imagenesCargadas = 0;
           
-
-    } else {
-      this._anuncioServicio
-        .updateAnuncio(anuncio, this.source)
-        .subscribe((resp: any) => {
-
-        let cont = 0;
-          while(this.imagenesCargadas < this.archivos.length){
-        this._anuncioServicio.uploadImage(resp._id, "anuncios", this.archivos[this.imagenesCargadas]).subscribe( async (image:any) => {
-              
-              if(image._id){
-                this.cargando = true;
-                cont ++;
-                if(cont == this.archivos.length){
-                  this.cargando = false;
-                  this.error  = false;
-                  this.completo  = true;
-                  cont = 0;
-                }
-              }
-            }, err => {
-              this.error = true;
-            })
-            this.imagenesCargadas++;
-          }
-      
-      this.imagenesCargadas = 0;
         });
-    }
+        
+        
+      } else {
+        this._anuncioServicio
+        .updateAnuncio(anuncio, this.source)
+            .subscribe((resp: any) => {
+
+              let cont = 0;
+              while(this.imagenesCargadas < this.archivos.length){
+                this._anuncioServicio.uploadImage(resp._id, "anuncios", this.archivos[this.imagenesCargadas]).subscribe( async (image:any) => {
+                  
+                  if(image._id){
+                    this.cargando = true;
+                    cont ++;
+                    if(cont == this.archivos.length){
+                      this.cargando = false;
+                      this.error  = false;
+                      this.completo  = true;
+                      this.getAnuncio(this.source);
+                      this.getImagenesAnuncio();
+                      cont = 0;
+                    }
+                  }
+                }, (err:any) => {
+                  this.error = true;
+                  window.alert(`Ups ${err.error.err.message}`);
+                })
+                this.imagenesCargadas++;
+              }
+              this.imagenesCargadas = 0;
+
+              if(this.bSoloTexto){
+                this.completo = true;
+              }
+
+          });
+        
+      }
   }
+
+ 
+
 }
