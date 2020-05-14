@@ -15,11 +15,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8" style="margin-button: 40px;">
+        <div class="col" style="margin-button: 40px;">
             <h3>Carga de Archivos </h3>
 
-            <button *ngIf="source != 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="!permiteCargar">Acutalizar Anuncio</button>
-            <button *ngIf="source == 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Guardar Anuncio</button>
+            <button [disabled]="cargando" *ngIf="source != 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="!permiteCargar">Acutalizar Anuncio</button>
+            <button [disabled]="cargando" *ngIf="source == 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Guardar Anuncio</button>
             <button *ngIf="!cargando" type="button" class="btn btn-danger" (click)="limpiarArchivos()" [disabled]="">Limpiar archivos</button>
             <table class="table" [hidden]="archivos.length == 0">
                 <thead class=" thead-inverse ">

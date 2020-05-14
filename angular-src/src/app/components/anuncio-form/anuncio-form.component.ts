@@ -136,9 +136,8 @@ export class AnuncioFormComponent implements OnInit {
       this._anuncioServicio
         .createAnuncio(anuncio, this.token)
         .subscribe(async (resp: any) => {
+        this.cargando = true;
           
-          
-    
         let cont = 0;
           while(this.imagenesCargadas < this.archivos.length){
         this._anuncioServicio.uploadImage(resp._id, "anuncios", this.archivos[this.imagenesCargadas]).subscribe( async (image:any) => {
