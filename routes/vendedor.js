@@ -112,7 +112,7 @@ app.put('/vendedor/:id', (req, res) => {
 
     let id = req.params.id;
 
-    let body = _.pick(req.body, ['nombre', 'email', 'img', 'estado', 'telefono', 'ciudad']);
+    let body = _.pick(req.body, ['nombre', 'email', 'img', 'estado', 'telefono', 'ciudad', 'fechaSubs']);
 
     Vendedor.findByIdAndUpdate(id, body, { new: true }, (err, vendedorBD) => {
         if (err) {

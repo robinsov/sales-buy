@@ -5,7 +5,7 @@ export interface Vendedor {
     password?: string,
     img?: any,
     idImg?: string,
-    fechaSubs?: any,
+    fechaSubs?: Date,
     telefono?: string,
     estado?: string,
     ciudad?: string,

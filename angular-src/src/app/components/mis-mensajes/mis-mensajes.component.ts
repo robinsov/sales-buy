@@ -1,0 +1,79 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { AnunciosService } from 'src/app/services/anuncios.service';
+import { from } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { VendedorService } from 'src/app/services/vendedor.service';
+import { Vendedor } from '../models/vendedor.model';
+
+@Component({
+  selector: 'app-mis-mensajes',
+  templateUrl: './mis-mensajes.component.html',
+  styleUrls: ['./mis-mensajes.component.css']
+})
+export class MisMensajesComponent implements OnInit {
+
+  mensaje: any;
+  vendedor: Vendedor;
+
+  mensajes: any[]= [];
+
+  btnResponder = false;
+  btnEnviar = false;
+  mensajeAEnviar: string = '';
+  btnContestado = false;
+
+  vendedorMensaje: Vendedor
+
+  constructor(private _anuncioService :AnunciosService,
+              private activateRoute: ActivatedRoute,
+              private _vendedorServic: VendedorService) { }
+
+  ngOnInit(): void {
+    this.getVendedor()
+    this.getMensajeActual();
+
+  }
+
+  getVendedor(){
+    this._vendedorServic.getVendedor(localStorage.getItem('id')).subscribe( vendedor => {
+      this.vendedorMensaje = vendedor;
+    })
+  }
+
+  getMensajeActual(){
+    this.activateRoute.params.subscribe( idMensaje => {
+      this._anuncioService.getMensaje(idMensaje['id']).subscribe( resp => {
+        console.log(resp);
+        if(resp){
+          this.mensaje = resp;
+          this.anuncioVendedor();
+        }
+      })
+    })
+  }
+
+
+  anuncioVendedor(){
+    this._vendedorServic.getVendedor(this.mensaje.anuncio.vendedor).subscribe( resp => {
+      this.vendedor = resp;
+    })
+  }
+
+  responderMensaje(id: string){
+    let newMensaje = {
+      mensaje: this.mensajeAEnviar,
+      usuario: this.vendedorMensaje
+    }
+  
+    this._anuncioService.updateMensaje(id, newMensaje).subscribe( resp => {
+      this.btnContestado = true;
+      this.btnResponder = false;
+      this.mensajeAEnviar = '';
+      if(resp){
+        this.getMensajeActual();
+      }
+    })
+  }
+
+}

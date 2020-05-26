@@ -23,6 +23,7 @@ app.get("/anuncio", (req, res) => {
     Anuncio.find({ disponible: true })
         .populate("vendedor")
         .populate("categoria")
+        .populate("like")
         .exec((err, anuncios) => {
             if (err) {
                 return res.status(400).json({
@@ -212,6 +213,8 @@ app.post("/anuncio", verificaToken, (req, res) => {
 //========================================
 app.put("/anuncio/:id", (req, res) => {
     let id = req.params.id;
+    let body = req.body;
+    console.log(body);
 
     Anuncio.findByIdAndUpdate(id, req.body, { new: true }, (err, anuncioBD) => {
         if (err) {

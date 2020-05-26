@@ -35,6 +35,11 @@ var anuncioSchema = new Schema({
         type: String,
         required: false
     },
+    like: {
+        type: Schema.Types.ObjectId,
+        ref: 'Like',
+        required: false
+    },
     categoria: {
         type: Schema.Types.ObjectId,
         ref: 'Categoria',

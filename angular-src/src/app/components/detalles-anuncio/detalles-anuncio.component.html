@@ -3,16 +3,23 @@
         <div class="card">
             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                 {{ anuncio.tituloAnuncio }}
+
             </div>
 
 
             <div class="card-body">
+                <div class="text-right">
+                    <i *ngIf="!likeAnuncio" class="far fa-heart fa-2x like" (click)="likes()"></i>
+                    <i *ngIf="likeAnuncio" class="fas fa-heart fa-2x like" (click)="likes()"></i> {{countLikes}}
+                </div>
                 <h1 class="card-title text-center">{{ anuncio.tituloAnuncio }}</h1>
-                <label class="badge badge-secondary font-med">Descripcion:</label>
-                <p class="card-text font-med2">{{ anuncio.descripcion }}</p>
+                <label class="badge badge-success">Descripcion:</label>
+
+                <p class="card-text font-med2">{{ anuncio.descripcion | titlecase }}</p>
                 <p class="card-text font-med2">
                     Precio: {{ anuncio.precioUni | currency }}
                 </p>
+
 
                 <div class="card">
                     <div class="card-body">
@@ -33,13 +40,31 @@
                     </div>
                 </div>
 
-                <button [routerLink]="['/anuncios', 'nav']" class="btn btn-primary btn-block">
-          <i class="fa fa-step-backward"></i>
-          Regresar
-        </button>
+                <div *ngIf="!anuncioPropio" class="p-2">
+                    <button *ngIf="!dejarMensaje" class="btn btn-primary" type="button" (click)="existeConversacion()">
+                        <i class="far fa-paper-plane"></i>
+                        Dejar un mensaje
+                    </button>
+                    <p *ngIf="dejarMensaje">Deje su mensaje aquí</p>
+                    <textarea class="mb-2 m-2" *ngIf="dejarMensaje" class="form-control" [(ngModel)]="mensaje" name="mensaje" rows="2" maxlength="140">
+                    </textarea> {{mensaje.length}}/140
+                    <div class="text-right">
+                        <button *ngIf="dejarMensaje" (click)="enviarMensaje()" class="btn btn-success mb-2" type="button">
+                            <i class="fas fa-paper-plane"></i>    
+                            Enviar
+                        </button>
+                    </div>
+                </div>
+
+                <button (click)="navegar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-step-backward"></i>
+                    Regresar
+                </button>
             </div>
+
             <div class="card-footer bg-transparent border-success">
                 {{ anuncio.fechaAnuncio | date }}
+
             </div>
         </div>
         <div>

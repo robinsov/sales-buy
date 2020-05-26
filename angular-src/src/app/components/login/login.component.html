@@ -1,4 +1,4 @@
-<div class="sidenav">
+<!-- <div class="sidenav">
     <div class="login-main-text">
         <h2>
             Tienda App
@@ -30,5 +30,57 @@
                 </button>
             </form>
         </div>
+    </div>
+</div> -->
+
+<img class="wave" src="assets/img/wave.png">
+<div class="container">
+
+    <div class="img">
+        <img src="assets/img/undraw_Choose_bwbs.svg">
+    </div>
+    <div class="login-content">
+
+        <form ngNativeValidate #f="ngForm" (ngSubmit)="login(f)">
+            <img src="assets/img/avatar.svg">
+            <h2 class="title">Bienvenido</h2>
+
+            <div class="input-div one">
+                <div class="i">
+                    <i #iconEmail class="fas fa-user"></i>
+                </div>
+                <div class="div">
+                    <input #fieldEmail type="email" [(ngModel)]="email" name="email" class="input">
+                </div>
+            </div>
+
+            <div class="input-div pass">
+                <div class="i">
+                    <i #iconPass class="fas fa-lock"></i>
+                </div>
+                <div class="div">
+                    <input #fieldPass type="password" [(ngModel)]="password" name="password" class="input">
+                </div>
+            </div>
+
+            <div>
+                <input [(ngModel)]="recordarme" type="checkbox" name="recordarme" />Recordar mi correro
+            </div>
+
+            <button type="submit" class="btn">
+                Entrar
+            </button>
+
+            <button type="button" class="btn" routerLink="/register">
+                Registrarse
+            </button>
+            <p> o inicie session con su cuenta de Google</p>
+            <button id="btnGoogle" type="button" class="btn btn-danger mt-3">
+                <i class="fab fa-google-plus-g"></i>
+            </button>
+            <!-- <input type="submit" class="btn" value="Login">
+            <input type="button" class="btn" value="Registrarse"> -->
+        </form>
+
     </div>
 </div>

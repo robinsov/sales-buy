@@ -1,0 +1,14 @@
+.img-mensaje {
+    width: 150px;
+    height: 150px;
+}
+
+.img-chica {
+    height: 50px;
+    width: 50px;
+}
+
+.focus-mensaje {
+    background-color: rgb(245, 244, 244) !important;
+    box-shadow: 2px 2px 10px #666 !important;
+}

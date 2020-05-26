@@ -1,0 +1,80 @@
+<div class="text-center mt-4">
+    <h2 href="#">MENSAJES</h2>
+
+</div>
+
+<div class="mt-5 mb-4">
+    <div>
+        <div class="input-group">
+            <input #termino (keyup.enter)="buscarTermino(termino.value)" type="text" class="form-control" placeholder="Buscar...">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-no-data *ngIf="mensajes.length === 0"></app-no-data>
+
+<div class="row">
+    <div class="col-12" *ngFor="let mensaje of mensajes">
+
+
+        <ul class="list-group mt-2 pointer animate__animated animate__fadeIn animate__fast" (click)="chat(mensaje._id)">
+            <li appLoginControl class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <span>
+                        <img class="img-chica img-circle img-thumbnail" [src]="mensaje.vendedor.img" alt="">
+                        {{mensaje.vendedor.nombre}} 
+                        <br>
+                        <small>{{mensaje.vendedor.email}} </small> <br>
+                        <small> 
+                            <i class="fab fa-whatsapp"></i>
+                            {{mensaje.vendedor.telefono}} 
+                        </small> <br>
+                    </span>
+                    <span> Anuncio: </span>
+                    <strong> {{mensaje.anuncio.tituloAnuncio |titlecase}} </strong>
+
+                </div>
+                <span class="badge badge-success badge-pill"> {{mensaje.mensaje.length}} </span>
+            </li>
+
+        </ul>
+
+
+
+
+
+
+
+        <!-- <div class="card mt-4">
+            <div class="card-body">
+                
+                <div class="sidebar-header pointer" (click)="chat(mensaje._id)">
+                    <div class="text-center">
+                        <img class="img-mensaje" [src]="mensaje.vendedor.img" alt="User picture">
+                    </div>
+                    <div>
+                        <span>{{mensaje.vendedor.nombre}} <br>
+                            <small>{{mensaje.vendedor.email}} </small> <br>
+                            <small> 
+                                <i class="fab fa-whatsapp"></i>
+                                {{mensaje.vendedor.telefono}} 
+                            </small> <br>
+                        </span>
+                        <span> Anuncio: </span>
+                        <strong> {{mensaje.anuncio.tituloAnuncio |titlecase}} </strong>
+             
+                    </div>
+                </div>
+                
+
+            </div>
+        </div> -->
+
+
+    </div>
+</div>

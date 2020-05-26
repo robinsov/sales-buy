@@ -20,7 +20,10 @@
             <button [disabled]="cargando" *ngIf="bSoloTexto && source != 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()">Acutalizar Anuncio</button>
 
             <button [disabled]="cargando" *ngIf="source != 'add' && !bSoloTexto " type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Acutalizar Anuncio</button>
-            <button [disabled]="cargando" *ngIf="source == 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">Guardar Anuncio</button>
+            <button [disabled]="cargando" *ngIf="source == 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()" [disabled]="archivos.length == 0 || !permiteCargar">
+                <i *ngIf="!completo && !error" [ngClass]="{'fa-spin' : cargando}" class="fa fa-spinner fa-lg text-warning" aria-hidden="true"></i>
+                Guardar Anuncio
+            </button>
             <button *ngIf="!cargando" type="button" class="btn btn-danger" (click)="limpiarArchivos()" [disabled]="">Limpiar archivos</button>
             <table class="table" [hidden]="archivos.length == 0">
                 <thead class=" thead-inverse ">

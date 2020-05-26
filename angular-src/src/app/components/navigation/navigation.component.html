@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="nombreVendedor">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" [routerLink]="['/perfil', id]">
             <img *ngIf="img" [src]="img | imagen: 'vendedores'" width="30" height="30">
@@ -12,22 +12,30 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" RouterLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/anuncios', 'nav']">Anuncios <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" [routerLink]="['/anuncios', 'nav']">
+                        <i class="fas fa-folder-open"></i> Anuncios
+                    </a>
                 </li>
                 <li class="nav-item" RouterLinkActive="active">
                     <a class="nav-link" [routerLink]="['/anuncio', 'add']">
-                        <i class="fa folder-plus"></i> Añadir Anuncio
+                        <i class="fas fa-plus"></i> Añadir Anuncio
                     </a>
                 </li>
                 <li class="nav-item" RouterLinkActive="active">
                     <a class="nav-link" [routerLink]="['/misAnuncios']">
-                        <i class="fa folder-plus"></i> Mis anuncios
+                        <i class="far fa-images"></i> Mis anuncios
+                    </a>
+                </li>
+
+                <li class="nav-item" RouterLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/sideBarMensajes']">
+                        <i class="far fa-comment-alt"></i> Mis Mensajes
                     </a>
                 </li>
 
                 <li class="nav-item" RouterLinkActive="active">
                     <a class="nav-link" [routerLink]="['/categorias']">
-                        <i class="fa folder-plus"></i> Categorias
+                        <i class="far fa-hdd"></i> Categorias
                     </a>
                 </li>
 
@@ -46,8 +54,8 @@
 
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input [(ngModel)]="termino" name="termino" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" (keyup.enter)="search()">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button" [routerLink]="['/anuncios', 'search', termino]">Search</button>
+                <input [(ngModel)]="termino" name="termino" class="form-control mr-sm-2" type="text" placeholder="Buscar" aria-label="Search" (keyup.enter)="search()">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="search()">Buscar</button>
             </form>
         </div>
 

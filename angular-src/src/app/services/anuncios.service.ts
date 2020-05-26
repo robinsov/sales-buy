@@ -5,6 +5,7 @@ import { Anuncio } from '../components/models/anuncio.model';
 
 import { map } from 'rxjs/operators';
 import { LoginService } from './login.service';
+import { from } from 'rxjs';
 
 
 @Injectable({
@@ -14,7 +15,6 @@ export class AnunciosService {
 
   anunciosPorCategorias : any[];
   imagesSegunAnuncio: any[];
-
 
   constructor(private http: HttpClient,
               private _loginService: LoginService) {
@@ -28,12 +28,18 @@ export class AnunciosService {
   }
   
   getAnuncio(id: string){
+    
     return this.http.get(`${environment.API_URI}/anuncio/${id}`);
   }
 
 
   getMisAnuncios(id:string){
-    return this.http.get(`${environment.API_URI}/misAnuncios/${id}`)
+    
+    return this.http.get(`${environment.API_URI}/misAnuncios/${id}`).pipe( 
+      map( resp => {
+        return resp;
+      })
+    )
   }
   
   createAnuncio(anuncio: Anuncio, token:string ){
@@ -61,6 +67,30 @@ export class AnunciosService {
     return this.http.put(`${environment.API_URI}/anuncio/${id}`, anuncio)
     .pipe( map (  (resp:any) => {
       return  resp.anuncioBD
+    }))
+  }
+
+  newLike(like){
+    return this.http.post(`${environment.API_URI}/like/`, like).pipe( map (  (resp:any) => {
+      return  resp.likeBD
+    }))
+  }
+
+  getlikeByIdanuncio(idAnuncio: string){
+    return this.http.get(`${environment.API_URI}/like/${idAnuncio}`).pipe( map (  (resp:any) => {
+      return  resp.likesAnuncios
+    }))
+  }
+
+  getLikes(){
+    return this.http.get(`${environment.API_URI}/like/`).pipe( map (  (resp:any) => {
+      return  resp.likeBD
+    }))
+  }
+
+  borrarLike(id: string){
+    return this.http.delete(`${environment.API_URI}/like/${id}`).pipe( map (  (resp:any) => {
+      return  resp.likeBorradoBD;
     }))
   }
   
@@ -100,6 +130,52 @@ export class AnunciosService {
 
   getAnunciosPorTermino(termino:string){
     return this.http.get(`${environment.API_URI}/anuncios/${termino}`);
+  }
+
+
+
+  newMensaje(mensaje){
+    return this.http.post(`${environment.API_URI}/mensaje`, mensaje).pipe( map (  (resp:any) => {
+      return  resp.mensajesBD
+    }))
+  }
+
+  updateMensaje(id:string, mensaje:any){
+    console.log(mensaje);
+    return this.http.post(`${environment.API_URI}/mensajeUpdate/${id}`, mensaje).pipe( map (  (resp:any) => {
+      return  resp.mensajesBD;
+    }))
+  }
+
+  getMensajeByIdAnuncio(idAnuncio: string){
+    return this.http.get(`${environment.API_URI}/mensajeAnuncio/${idAnuncio}`).pipe( map (  (resp:any) => {
+      return  resp.mensajes
+    }))
+  }
+
+  getMensajes(id: string){
+    return this.http.get(`${environment.API_URI}/mensaje/${id}`).pipe( map (  (resp:any) => {
+      return  resp.mensajes
+    }))
+  }
+
+  getMensaje(idMensaje: string){
+    return this.http.get(`${environment.API_URI}/mensajeGuardado/${idMensaje}`).pipe( map (  (resp:any) => {
+      return  resp.mensajeBD
+    }))
+  }
+
+  getAllMensajes(){
+    return this.http.get(`${environment.API_URI}/mensaje`).pipe( map (  (resp:any) => {
+      return  resp.mensajesBD
+    }))
+  }
+
+
+  borrarMensaje(id: string){
+    return this.http.delete(`${environment.API_URI}/mensaje/${id}`).pipe( map (  (resp:any) => {
+      return  resp.mensajeBorradoBD;
+    }))
   }
 
 }

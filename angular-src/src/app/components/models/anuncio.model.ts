@@ -7,6 +7,7 @@ export interface Anuncio {
     fechaAnuncio?: Date;
     ciudad?: string;
     img?: any;
+    like?: any;
     categoria?: string;
     vendedor?: string;
 }

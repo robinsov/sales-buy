@@ -15,6 +15,7 @@ export class LoginService implements OnInit{
 
   token: string
   img = new EventEmitter;
+  nombre = new EventEmitter;
 
   public changeLoginStatusSubject = new Subject<boolean>();
   public changeLoginStatus$ = this.changeLoginStatusSubject.asObservable();
@@ -51,6 +52,7 @@ export class LoginService implements OnInit{
       localStorage.removeItem('token');
       localStorage.removeItem('id');
       localStorage.removeItem('vendedor');
+      localStorage.removeItem('img');
       this.router.navigate(['/login']);
     }
   }

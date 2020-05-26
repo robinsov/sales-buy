@@ -1,5 +1,5 @@
 <div class="row p-5">
-    <div class="col-md-4 offset-md-2">
+    <div class="col">
         <div class="card">
             <div class="card-header text-center">
                 Formulario del aununcio
@@ -27,11 +27,13 @@
                     </div>
 
                     <div class="form-group">
-                        <select [(ngModel)]="categoria" name="categoria" class="custom-select custom-select-lg mb-3" required>
+                        <label>Escoja la Categoria:</label>
+                        <select [(ngModel)]="categoria " name="categoria" class="custom-select custom-select-lg mb-3" required>
+                            
                             <option *ngFor="let item of categorias" [value]="item._id">
                                 {{ item.descripcion }}
                             </option>
-                            </select>
+                        </select>
                     </div>
                     <hr>
 

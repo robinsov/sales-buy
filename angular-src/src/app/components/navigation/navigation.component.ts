@@ -21,17 +21,19 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(localStorage.getItem('vendedor')){
-      this.nombreVendedor = localStorage.getItem('vendedor');
-    }
-    
-    if(localStorage.getItem('img')){
-      this.img = localStorage.getItem('img')
-    }
-    
-    
-
+  if(localStorage.getItem('vendedor')){
+    this.nombreVendedor = localStorage.getItem('vendedor');
   }
+
+  this._loginService.nombre.subscribe( nombre => {
+    this.nombreVendedor = nombre
+  })
+  
+  this._loginService.img.subscribe( img => {
+    this.img = img
+  })
+}
+  
 
   logout(){
     this._loginService.logout();
@@ -43,12 +45,15 @@ export class NavigationComponent implements OnInit {
   }
 
   search(){
-    if(this.termino.length <= 0){
-      return
+
+    if(!this.termino){
+      alert('Digite un término de búsqueda')
+      return;
+    }else{
+      this.router.navigate(['/anuncios', 'search', this.termino]);
     }
 
-    this.router.navigate(['/anuncios', 'search', this.termino]);
-    this.termino = '';
+
   }
 
 }

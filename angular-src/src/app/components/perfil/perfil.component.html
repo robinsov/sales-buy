@@ -1,54 +1,83 @@
 <div class="row">
-    <div class="col-md-6 offset-md-2">
-        <div class="card d-flex justify-content-between align-items-center" *ngIf="vendedor">
+    <div class="col-md-6 offset-md-2 animate__animated animate__fadeIn animate__fast" *ngIf="result">
+        <div class="card d-flex justify-content-between align-items-center">
             <div class="card-body">
 
-                <form ngNativeValidate #f="ngForm" (change)="cambiosForm(f)" (ngSubmit)="actualizar(f)">
+                <form (ngSubmit)="actualizar()" [formGroup]="formulario">
                     <div class="form-group">
-                        <img *ngIf="!imgTemp" [src]="vendedor.img | imagen: 'vendedores'" class="card-img-top" />
+                        <img *ngIf="!imgTemp" [src]="imagen | imagen: 'vendedores'" class="card-img-top" />
                         <img *ngIf="imgTemp" [src]="imgTemp | imagen: 'vendedores'" class="card-img-top" />
                     </div>
+                    <!-- ================================================FORMULARIO REACTIVO===================================================================== -->
+                    <div class="form-group">
+                        <input class="form-control" [ngClass]="{'is-valid': nombre.valid,'is-invalid': nombre.errors && telefono.dirty}" autofocus type="text" formControlName="nombre" />
+                        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+                            <div *ngIf="nombre.errors.required">
+                                El nombre es requerido
+                            </div>
+                            <div *ngIf="nombre.errors.minlength">
+                                La longitud minima del nombre es de 3 carcateres
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="email" formControlName="email" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" [ngClass]="{'is-valid': telefono.valid,'is-invalid': telefono.errors && telefono.dirty}" type="number" placeholder="Telefono para contactar" formControlName="telefono" />
+                        <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="alert alert-danger">
+                            <div *ngIf="telefono.errors.required">
+                                El telefono es requerido y deben ser numeros
+                            </div>
+                            <div *ngIf="telefono.errors.minlength">
+                                Digite un numero de celular valido
+                            </div>
+                            <div *ngIf="telefono.errors.maxlength">
+                                Digite un numero de celular valido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" [ngClass]="{'is-valid': ciudad.valid, 'is-invalid': ciudad.errors && ciudad.dirty}" type="text" placeholder="Ciudad" formControlName="ciudad" />
 
-                    <div class="form-group">
-                        <input #nombre class="form-control" autofocus [(ngModel)]="vendedor.nombre" type="text" name="nombre" required />
+                        <div *ngIf="ciudad.invalid && (ciudad.dirty || ciudad.touched)" class="alert alert-danger">
+                            <div *ngIf="ciudad.errors.required">
+                                El campo es requerido
+                            </div>
+                            <div *ngIf="ciudad.errors.minlength">
+                                La longitud minima del campo es de 3 carcateres
+                            </div>
+                            <div *ngIf="ciudad.errors.maxlength">
+                                La longitud maxima del campo es de 15 carcateres
+                            </div>
+                        </div>
+
                     </div>
                     <div class="form-group">
-                        <input disabled class="form-control" [(ngModel)]="vendedor.email" type="email" name="email" required />
+                        <input [disabled]="bImg" #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" />
                     </div>
                     <div class="form-group">
-                        <input class="form-control" [(ngModel)]="vendedor.telefono" type="text" name="telefono" placeholder="Telefono para contactar" required />
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="text" [(ngModel)]="vendedor.ciudad" name="ciudad" placeholder="Ciudad" required />
-                    </div>
-                    <div class="form-group">
-                        <input [disabled]="bImg" #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" required/>
-                    </div>
-                    <div class="form-group">
-                        <button *ngIf="formularioListo" (click)="bImg = !bImg" type="button" class="btn btn-outline-warning btn-block">
+                        <button *ngIf="result.img" (click)="bImg = !bImg" type="button" class="btn btn-outline-warning btn-block">
                         <i class="fa fa-save"></i>
                         Actualizar imagen tambien
                         </button>
                     </div>
+                    <!-- ==================================================FIN FORMULARIO REACTIVO======================================================================================================= -->
                     <div class="card-footer bg-transparent border-success text-center">
-                        {{ vendedor.fechaSubs | date }}
+                        {{ fechaSubs | date }}
                     </div>
 
-                    <button [disabled]="f.invalid" type="submit" class="btn btn-success btn-block">
+                    <button [disabled]="formulario.invalid" type="submit" class="btn btn-success btn-block">
                         <i class="fa fa-save"></i>
                         Actualizar
                     </button>
 
+                    <button [routerLink]="['/anuncios', 'nav']" type="button" class="btn btn-success btn-block">
+                        Ir a los anuncios
+                        <i class="fas fa-arrow-right"></i>
+                    </button> {{formulario.valid}}
                     <hr>
 
-
-                    <button type="button" [routerLink]="['/anuncios', 'nav']" class="btn btn-danger btn-block">
-                        <i class="fa fa-back"></i>
-                        Cancelar
-                    </button>
-                    <div class="mt-3 text-center" *ngIf="f.invalid">
-                        <p class="alet alert-warning">Es necesario completar todos los campos, así los demás pueden contactarte</p>
-                    </div>
                 </form>
             </div>
         </div>

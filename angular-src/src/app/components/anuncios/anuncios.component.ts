@@ -15,19 +15,22 @@ export class AnunciosComponent implements OnInit {
   anuncios : Anuncio[] = [];
   source: string;
   valor: string;
+  termino: string
   constructor(private _anuncioService: AnunciosService,
               private activateRoute: ActivatedRoute) { 
                
               }
 
   ngOnInit(): void {
-    this.activateRoute.params.subscribe(async resp => {
-      this.source = await resp['source'];
-      if( await resp['valor']){
-        this.valor = await resp['valor'];
+    this.activateRoute.params.subscribe( resp => {
+      this.source =  resp['source'];
+      if(  resp['valor']){
+        this.valor =  resp['valor'];
 
         if(this.source === 'search') {
-          this.getAnunciosSearch(this.valor)
+          this.termino = resp['valor'];
+          console.log(this.termino);
+          this.getAnunciosSearch(this.termino)
         }
         if(this.source === 'cat') {
           this.getAnunciosCategorias(this.valor)
@@ -45,22 +48,22 @@ export class AnunciosComponent implements OnInit {
   }
 
   getAnunciosNav(){
-    this._anuncioService.getAnuncios().subscribe( async (resp:any) => {
-      this.anuncios = await resp;
+    this._anuncioService.getAnuncios().subscribe(  (resp:any) => {
+      this.anuncios =  resp;
     })
   }
 
 
   getAnunciosCategorias(id: string){
-    this._anuncioService.getAnunciosPorCategorias(id).subscribe( async (resp:any)=> {
-      this.anuncios = await resp.misCategorias;
+    this._anuncioService.getAnunciosPorCategorias(id).subscribe(  (resp:any)=> {
+      this.anuncios =  resp.misCategorias;
     })
   }
 
 
   getAnunciosSearch(termino: string){
-    this._anuncioService.getAnunciosPorTermino(termino).subscribe( async (resp:any)=> {
-      this.anuncios = await resp.anunciosEncontrados;
+    this._anuncioService.getAnunciosPorTermino(termino).subscribe(  (resp:any)=> {
+      this.anuncios =  resp.anunciosEncontrados;
     })
   }
 

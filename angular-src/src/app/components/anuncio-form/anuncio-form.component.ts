@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { IImage } from "../models/image.model";
 import { Observable, Subscriber } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { Categoria } from '../models/categoria.model';
 
 @Component({
   selector: "app-anuncio-form",
@@ -16,7 +17,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ["./anuncio-form.component.css"],
 })
 export class AnuncioFormComponent implements OnInit {
-  categorias: any[] = [];
+  
+  categorias: Categoria[] =[];
   imagenesCargadas = 0;
   permiteCargar: boolean = false;
   archivos: any[] = [];
@@ -76,7 +78,7 @@ export class AnuncioFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarStorage();
-    this._categoriaService.getCategorias().subscribe((resp) => {
+    this._categoriaService.getCategorias().subscribe((resp:any) => {
       this.categorias = resp;
     });
   }

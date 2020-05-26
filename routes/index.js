@@ -8,6 +8,8 @@ app.use(require('./anuncio'));
 app.use(require('./login'));
 app.use(require('./upload'));
 app.use(require('./imagenes'));
+app.use(require('./like'));
+app.use(require('./mensaje'));
 // app.use(require('./'));
 
 

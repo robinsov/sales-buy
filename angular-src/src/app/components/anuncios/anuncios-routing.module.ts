@@ -8,6 +8,8 @@ import { AnuncioFormComponent } from '../anuncio-form/anuncio-form.component';
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { CanDeactiveGuard } from 'src/app/guards/can-deactive.guard';
 import { AuthGuard } from 'src/app/guards/auth.guard';
+import { MisMensajesComponent } from '../mis-mensajes/mis-mensajes.component';
+import { SidebarMensajesComponent } from '../sidebar-mensajes/sidebar-mensajes.component';
 
 const routes: Routes = [
   {
@@ -25,7 +27,16 @@ const routes: Routes = [
       component: MisAnunciosComponent,
       canActivate: [AuthGuard]
   },
-  
+  {
+      path: "sideBarMensajes",
+      component: SidebarMensajesComponent,
+      canActivate: [AuthGuard]
+  },
+  {
+    path: "misMensajes/:id",
+    component: MisMensajesComponent,
+    canActivate: [AuthGuard]
+  },
   { path: "perfil/:id", component: PerfilComponent, 
     canDeactivate: [CanDeactiveGuard],
     canActivate: [AuthGuard] },
@@ -34,6 +45,12 @@ const routes: Routes = [
     component: DetallesAnuncioComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: "detalles/:id/:termino",
+    component: DetallesAnuncioComponent,
+    canActivate: [AuthGuard]
+  },
+  
   {
     path: "categorias",
     component: CategoriasComponent,

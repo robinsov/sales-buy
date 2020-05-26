@@ -12,14 +12,14 @@ export class ImagenPipe implements PipeTransform {
 
     if(!imagen){
       return url = 'assets/img/no-image.jpg';
+    }else{
+      if( imagen.indexOf( 'base64') >= 0){
+        return imagen;
+      }
     }
     
-    if( imagen.indexOf( 'base64') >= 0){
-      return imagen;
-    }
     
     if(localStorage.getItem('token')){
-      token = localStorage.getItem('token');
       url = imagen;
       return url;
       

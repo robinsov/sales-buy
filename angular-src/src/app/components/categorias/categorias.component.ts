@@ -23,8 +23,9 @@ export class CategoriasComponent implements OnInit {
   }
 
   getCategorias(){
-    this._categoriasService.getCategorias().subscribe(   resp => {
-      this.categorias =   resp
+    this._categoriasService.getCategoriasAjax().subscribe( (resp:any) => {
+      console.log(resp);
+      this.categorias = resp;
     })
   }
 
