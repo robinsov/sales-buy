@@ -3,7 +3,7 @@
  //importar variables de entorno
  //require('dotenv').config({ path: 'variables.env' });
 
-
+ const SocketIO = require('socket.io');
 
  const express = require('express');
  const mongoose = require('mongoose');
@@ -48,6 +48,23 @@
      });
 
 
- app.listen(process.env.PORT, () => {
+ const server = app.listen(process.env.PORT, () => {
      console.log('Esta escuchando por el puerto' + process.env.PORT);
  })
+
+
+ const io = SocketIO(server);
+
+ //webSockets
+ io.on('connection', (socket) => {
+     console.log('new connection', socket.id);
+     socket.on('message', (data) => {
+         //  console.log(data);
+         io.sockets.emit('message', data);
+     })
+
+     // socket.on('chat:typing', (data) => {
+     //     console.log(data);
+     //     socket.broadcast.emit('chat:typing', data);
+     // })
+ });

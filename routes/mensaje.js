@@ -142,8 +142,8 @@ app.post("/mensajeUpdate/:idMensaje", (req, res) => {
                 },
             });
         }
-        console.log(mensaje);
-        console.log(mensajesBD);
+        // console.log(mensaje);
+        // console.log(mensajesBD);
 
         if (mensajesBD) {
             mensajesBD.mensaje.push(req.body);
@@ -162,7 +162,7 @@ app.post("/mensaje", (req, res) => {
     let body = req.body;
     let horaExacta = new Date();
     horaExacta = `${horaExacta.getHours()}:${horaExacta.getMinutes()}`;
-    console.log(horaExacta);
+    // console.log(horaExacta);
 
     let mensajes = new Mensajes({
         mensaje: body.mensaje,

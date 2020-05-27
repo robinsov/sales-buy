@@ -15,6 +15,10 @@ import { ImagenModule } from 'src/app/pipes/imagen.module';
 import { SharedModule } from '../shared/shared/shared.module';
 
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+
+const config: SocketIoConfig = { url: environment.API_URI, options: {} };
 
 @NgModule({
   declarations: [
@@ -42,6 +46,7 @@ import { SharedModule } from '../shared/shared/shared.module';
     ImagenModule,
     SharedModule,
     AnunciosRoutingModule,
+    SocketIoModule.forRoot(config)
   ]
 })
 export class AnunciosModule { }

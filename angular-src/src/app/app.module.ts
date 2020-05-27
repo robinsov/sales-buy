@@ -10,7 +10,6 @@ import { PaginasComponent } from './components/anuncios/paginas.component';
 import { SharedModule } from './components/shared/shared/shared.module';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
