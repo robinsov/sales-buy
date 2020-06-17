@@ -4,8 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Anuncio } from '../components/models/anuncio.model';
 
 import { map } from 'rxjs/operators';
-import { LoginService } from './login.service';
-import { from } from 'rxjs';
+import { Socket } from "ngx-socket-io";
 
 
 @Injectable({
@@ -16,8 +15,9 @@ export class AnunciosService {
   anunciosPorCategorias : any[];
   imagesSegunAnuncio: any[];
 
-  constructor(private http: HttpClient,
-              private _loginService: LoginService) {
+  mensajesNuevos = new EventEmitter<boolean>();
+
+  constructor(private http: HttpClient) {
                 
               }
 
@@ -141,8 +141,15 @@ export class AnunciosService {
   }
 
   updateMensaje(id:string, mensaje:any){
-    console.log(mensaje);
-    return this.http.post(`${environment.API_URI}/mensajeUpdate/${id}`, mensaje).pipe( map (  (resp:any) => {
+    // console.log(mensaje);
+    return this.http.put(`${environment.API_URI}/mensajeUpdate/${id}`, mensaje).pipe( map (  (resp:any) => {
+      return  resp.mensajesBD;
+    }))
+  }
+
+  mensajeLeido(id:string, mensaje:any){
+    // console.log(mensaje);
+    return this.http.put(`${environment.API_URI}/mensajeLeido/${id}`, mensaje).pipe( map (  (resp:any) => {
       return  resp.mensajesBD;
     }))
   }

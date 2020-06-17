@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { from } from 'rxjs';
-import { map, distinct, distinctUntilKeyChanged, filter } from 'rxjs/operators';
+import { distinct, map  } from 'rxjs/operators';
 import { Router } from '@angular/router';
+
+
+
+import { Socket } from "ngx-socket-io";
 
 @Component({
   selector: 'app-sidebar-mensajes',
@@ -11,8 +15,9 @@ import { Router } from '@angular/router';
 })
 export class SidebarMensajesComponent implements OnInit {
 
-  mensajesHp = new EventEmitter;
+  mensajesHp;;
 
+  yo = localStorage.getItem('id');
   mensajes: any[]= [];
 
   btnResponder = false;
@@ -22,54 +27,93 @@ export class SidebarMensajesComponent implements OnInit {
 
   mensajesEncontrados: any[] = [];
 
-
+  nuevoMensaje: boolean;
 
   constructor(private _anuncioService :AnunciosService,
               private router: Router,
-              private renderer: Renderer2) { }
+              private renderer: Renderer2,
+              private socket: Socket) { }
 
   ngOnInit(): void {
     this.getAllMensajes();
+
+    // this.ubicarMensaje();
+  }
+
+  ubicarMensaje(){
+    this.socket.fromEvent('message').pipe(
+      map( data => data )
+    ).subscribe((resp:any) => {
+      if(resp){
+        console.log(resp);
+        console.log(this.mensajes);
+        this.mensajes.forEach((element, index) => {
+          if(String(element._id ) === String(resp.idMensaje)){
+            // this.mensajeLeido = resp.data.leido;
+            
+          }
+        });
+      }
+    });
   }
 
 
+
   getAllMensajes(){
-    
+    this.mensajesHp = new EventEmitter
     this._anuncioService.getAllMensajes().subscribe(mensajes => {
+
       mensajes.forEach(element => {
         if(String(element.anuncio.vendedor) === localStorage.getItem('id')){
           this.mensajesEncontrados.push(element)
         }
         element.mensaje.forEach(element2 => {
+    
           if(String(element2.usuario._id) === localStorage.getItem('id')){
-            this.mensajesEncontrados.push(element)
+            this.mensajesEncontrados.push(element);
           }
         });
       });
-      console.log(this.mensajesEncontrados);
       this.mensajesHp.emit(this.mensajesEncontrados);
     })
 
+    this.llenarMensajes();
+
+  }
+
+  llenarMensajes(){
     this.mensajesHp.subscribe( (r:any)=> {
       from( r ).pipe(
-        distinct( p => p['_id'] )
+        distinct( (p:any) => p._id)
         ).subscribe( (resp:any) => {
-          // console.log(resp);
-      this.mensajes.push(resp)
+          this.mensajes.push(resp)
     });
     })
-    
   }
 
 
   chat(id: string){
+
+    
+    
+    let mensajeYaLeido = {
+      leido: localStorage.getItem('id'),
+    };
+
+    this._anuncioService
+      .mensajeLeido(id, mensajeYaLeido)
+      .subscribe(resp => {
+      });
+
     this.router.navigate(['/misMensajes',  id]);
+
   }
 
   buscarTermino(termino: string){
     if(termino.length === 0) {
-      this.resetMensajes();
-      alert('Digíte un termino de busqueda')
+      alert('Digíte un término de busqueda')
+      this.mensajes = [];
+      this.getAllMensajes();
       return; 
     }
 
@@ -84,15 +128,10 @@ export class SidebarMensajesComponent implements OnInit {
         }
     });
     
-    if(encontrados){
+    if(encontrados.length > 0){
       this.mensajes = encontrados;
     }
-
   }
 
-  resetMensajes(){
-    this.mensajes = [];
-    // this.getAllMensajes();
-  }
 
 }

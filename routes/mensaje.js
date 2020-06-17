@@ -122,7 +122,7 @@ app.get('/mensajeAnuncio/:idAnuncio', (req, res) => {
         })
 })
 
-app.post("/mensajeUpdate/:idMensaje", (req, res) => {
+app.put("/mensajeUpdate/:idMensaje", (req, res) => {
     let id = req.params.idMensaje;
     let mensaje = req.body.mensaje;
 
@@ -134,26 +134,35 @@ app.post("/mensajeUpdate/:idMensaje", (req, res) => {
             });
         }
 
-        if (!mensajesBD) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: "Id no existe",
-                },
-            });
-        }
-        // console.log(mensaje);
-        // console.log(mensajesBD);
-
         if (mensajesBD) {
             mensajesBD.mensaje.push(req.body);
         }
-        mensajesBD.save();
 
+        mensajesBD.leido = false;
+        mensajesBD.save();
         res.json({
             ok: true,
             mensajesBD,
         });
+    });
+});
+
+app.put("/mensajeLeido/:idMensaje", (req, res) => {
+    let id = req.params.idMensaje;
+
+    Mensajes.findByIdAndUpdate(id, req.body, { new: true }, (err, mensajeLeido) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err,
+            });
+        }
+
+        res.json({
+            ok: true,
+            mensajeLeido
+        })
+
     });
 });
 

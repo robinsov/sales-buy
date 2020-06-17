@@ -2,71 +2,6 @@ body {
     font-family: "Lato", sans-serif;
 }
 
-.main-head {
-    height: 150px;
-    background: #FFF;
-}
-
-.sidenav {
-    height: 100%;
-    background-color: #000;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.main {
-    padding: 0px 10px;
-}
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-}
-
-@media screen and (max-width: 450px) {
-    .login-form {
-        margin-top: 10%;
-    }
-    .register-form {
-        margin-top: 10%;
-    }
-}
-
-@media screen and (min-width: 768px) {
-    .main {
-        margin-left: 40%;
-    }
-    .sidenav {
-        width: 40%;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-    }
-    .login-form {
-        margin-top: 80%;
-    }
-    .register-form {
-        margin-top: 20%;
-    }
-}
-
-.login-main-text {
-    margin-top: 20%;
-    padding: 60px;
-    color: #fff;
-}
-
-.login-main-text h2 {
-    font-weight: 300;
-}
-
-.btn-black {
-    background-color: #000 !important;
-    color: #fff;
-}
-
 * {
     padding: 0;
     margin: 0;
@@ -78,24 +13,21 @@ body {
     overflow: hidden;
 }
 
+.gg {
+    font-family: "Lato", sans-serif;
+}
+
 .wave {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
-    height: 60%;
+    height: 80%;
     z-index: -1;
 }
 
 .focusEmail {
     color: #38d39f;
-}
-
-.focusPrueba {
-    background-color: tomato !important;
-}
-
-.focusPass {
-    color: #38d39f;
+    transform: translateY(-5px);
 }
 
 .container {
@@ -163,12 +95,12 @@ form {
     transition: .3s;
 }
 
-.input-div>div {
+.input-div div {
     position: relative;
     height: 45px;
 }
 
-.input-div>div>h5 {
+.input-div div h5 {
     position: absolute;
     left: 10px;
     top: 50%;
@@ -197,21 +129,7 @@ form {
     left: 50%;
 }
 
-.input-div.focus:before,
-.input-div.focus:after {
-    width: 50%;
-}
-
-.input-div.focus>div>h5 {
-    top: -5px;
-    font-size: 15px;
-}
-
-.input-div.focus>.i>i {
-    color: #38d39f;
-}
-
-.input-div>div>input {
+.input-div div input {
     position: absolute;
     left: 0;
     top: 0;
@@ -226,21 +144,8 @@ form {
     font-family: 'poppins', sans-serif;
 }
 
-.input-div.pass {
+.input-div .pass {
     margin-bottom: 4px;
-}
-
-a {
-    display: block;
-    text-align: right;
-    text-decoration: none;
-    color: #999;
-    font-size: 0.9rem;
-    transition: .3s;
-}
-
-a:hover {
-    color: #38d39f;
 }
 
 .btn {
@@ -263,25 +168,6 @@ a:hover {
 
 .btn:hover {
     background-position: right;
-}
-
-@media screen and (max-width: 1050px) {
-    .container {
-        grid-gap: 5rem;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-    form {
-        width: 290px;
-    }
-    .login-content h2 {
-        font-size: 2.4rem;
-        margin: 8px 0;
-    }
-    .img img {
-        width: 400px;
-    }
 }
 
 @media screen and (max-width: 900px) {

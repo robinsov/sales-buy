@@ -1,7 +1,13 @@
 <app-no-data *ngIf="anuncios.length == 0"></app-no-data>
 
 <div class="row p-4 animate__animated animate__fadeIn animate__fast">
-    <div class="col-md-4 p-2" *ngFor="let anuncio of anuncios; trackBy:trackByFn">
+    <!-- <div class="col-md-4 p-2" *ngFor="let anuncio of anuncios; trackBy:trackByFn "> -->
+    <div class="col-md-4 p-2" *ngFor="let anuncio of anuncios | paginate: {id: 'listing_pagination',
+                                                                           itemsPerPage: 3,
+                                                                           currentPage: page,
+                                                                           totalItems: anuncios.length }; trackBy:trackByFn  ">
+
+
         <div class="card text-center">
             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                 {{ anuncio.tituloAnuncio }}
@@ -33,3 +39,4 @@
         </div>
     </div>
 </div>
+<pagination-controls id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event"> </pagination-controls>

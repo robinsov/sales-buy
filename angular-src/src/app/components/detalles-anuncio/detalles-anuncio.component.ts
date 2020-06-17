@@ -9,6 +9,8 @@ import { map, pluck } from 'rxjs/operators';
 import { VendedorService } from 'src/app/services/vendedor.service';
 import { Vendedor } from '../models/vendedor.model';
 
+import { Socket } from "ngx-socket-io";
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-detalles-anuncio',
   templateUrl: './detalles-anuncio.component.html',
@@ -36,6 +38,7 @@ export class DetallesAnuncioComponent implements OnInit {
   constructor(private _anuncioService: AnunciosService,
               private _vendedorService: VendedorService,
               private router: Router,
+              private socket: Socket,
               private activateRouter: ActivatedRoute) {
                 
               }
@@ -124,20 +127,30 @@ export class DetallesAnuncioComponent implements OnInit {
 
   existeConversacion(){
     this._anuncioService.getAllMensajes().subscribe(mensajes => {
-      
+      console.log(mensajes);
       if(mensajes.length > 0){
         for (var indice in mensajes) {
-          
           if(String(mensajes[indice].anuncio._id ) === String(this.idAnuncio) && String(mensajes[indice].vendedor._id) === String(localStorage.getItem('id'))){
-            alert(`ya tiene una conversacion con el vendedor ${mensajes[indice].vendedor.nombre}`)
+            Swal.fire({
+              title: 'Ya tiene una conversacion Pendiente',
+              text: "Desea ir a la connversacion?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si'
+            }).then((result) => {
+              if (result.value) {
+                this.router.navigate(['misMensajes', mensajes[indice]._id ])
+              }
+            })
             this.existeChat = true;
-            return
-          }else{
-            this.existeChat = false;
-            this.dejarMensaje = true;
             return
           }
         } 
+          this.existeChat = false;
+          this.dejarMensaje = true;
+          return
       }else{
         this.existeChat = false;
         this.dejarMensaje = true;
@@ -151,7 +164,8 @@ export class DetallesAnuncioComponent implements OnInit {
     let newMessage = {
       mensaje: {
         mensaje: this.mensaje,
-        usuario: this.vendedorMensaje
+        usuario: this.vendedorMensaje,
+        leido: false,
       },
       anuncio: this.idAnuncio,
       vendedor: this.vendedorMensaje
@@ -165,8 +179,16 @@ export class DetallesAnuncioComponent implements OnInit {
 
   envioMensaje(newMessage){
     this._anuncioService.newMensaje(newMessage).subscribe( resp => {
+      this.socket.emit('newMessage', 'nuevoMensaje');
       this.mensaje = '';
       this.dejarMensaje = false;
+      this.socket.fromEvent('newMessage').pipe(
+        map( data => data )
+      ).subscribe((resp:boolean) => {
+        if(resp){
+          this._anuncioService.mensajesNuevos.emit(resp);
+        }
+      });
     })
 
   }

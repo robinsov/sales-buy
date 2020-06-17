@@ -6,14 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { PuedeDesactivar } from 'src/app/guards/can-deactive.guard';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
-export class PerfilComponent implements OnInit, AfterViewInit, PuedeDesactivar {
+export class PerfilComponent implements OnInit, PuedeDesactivar {
 
   @ViewChild('f', {static: false}) f: ElementRef;
 
@@ -51,11 +50,6 @@ export class PerfilComponent implements OnInit, AfterViewInit, PuedeDesactivar {
       
     }
 
-    ngAfterViewInit(): void {
-      console.log(this.f);
-    
-  }
-
     formulario = this.formBuilder.group({
       nombre: [{value: '', disabled: false} , {
         validators: [Validators.required, Validators.minLength(3)]
@@ -75,9 +69,6 @@ export class PerfilComponent implements OnInit, AfterViewInit, PuedeDesactivar {
     })
 
   ngOnInit(): void {
-
-   
-    console.log(this.formulario);
     this.activateRoute.params.subscribe(  resp => {
       this.getPerfilCompleto( resp['id']);
     })
@@ -171,12 +162,9 @@ export class PerfilComponent implements OnInit, AfterViewInit, PuedeDesactivar {
     if(this.formularioListo){
       return true
     }
-
       Swal.fire('No puede salir', 'los datos son necesarios para contactarte. Asegurate de dar click en ACTUALIZAR', 'warning');
       return false
     
-
-
   }
   
 }

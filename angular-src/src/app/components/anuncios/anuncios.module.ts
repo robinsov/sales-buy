@@ -18,6 +18,8 @@ import { SharedModule } from '../shared/shared/shared.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 
+import { NgScrollbarModule } from 'ngx-scrollbar';
+
 const config: SocketIoConfig = { url: environment.API_URI, options: {} };
 
 @NgModule({
@@ -40,6 +42,7 @@ const config: SocketIoConfig = { url: environment.API_URI, options: {} };
     
   ],
   imports: [
+    NgScrollbarModule,
     CommonModule,
     FormsModule,
     NgbModule,

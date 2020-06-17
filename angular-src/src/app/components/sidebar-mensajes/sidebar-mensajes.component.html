@@ -1,15 +1,15 @@
 <div class="text-center mt-4">
-    <h2 href="#">MENSAJES</h2>
+    <h2 href="#">CHATS</h2>
 
 </div>
 
 <div class="mt-5 mb-4">
     <div>
         <div class="input-group">
-            <input #termino (keyup.enter)="buscarTermino(termino.value)" type="text" class="form-control" placeholder="Buscar...">
+            <input #termino (keyup.enter)="buscarTermino(termino.value)" type="text" class="form-control" placeholder="Busca por titulo del anuncio o por nombre de usuario">
             <div class="input-group-append">
                 <span class="input-group-text">
-                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <i (click)="buscarTermino(termino.value)" class="fa fa-search" aria-hidden="true"></i>
                 </span>
             </div>
         </div>
@@ -38,8 +38,12 @@
                     <span> Anuncio: </span>
                     <strong> {{mensaje.anuncio.tituloAnuncio |titlecase}} </strong>
 
+                    <div *ngIf="mensaje.leidoPor === yo " class="spinner-grow spinner-grow-sm text-danger" role="status ">
+                        <span class="sr-only">Loading... </span>
+                    </div>
+
                 </div>
-                <span class="badge badge-success badge-pill"> {{mensaje.mensaje.length}} </span>
+
             </li>
 
         </ul>

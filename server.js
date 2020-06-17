@@ -24,18 +24,16 @@
      next();
  });
 
-
  const bodyParser = require('body-parser');
 
  app.use(express.static(path.join(__dirname, './bin')));
 
- // parse application/x-www-form-urlencoded
  app.use(bodyParser.urlencoded({ extended: false }))
-     // parse application/json
  app.use(bodyParser.json())
 
  //confioguracion global de las rutas
  app.use(require('./routes/index'));
+
 
  app.get('*', (req, res) => {
      res.sendFile(path.join(__dirname, './bin/index.html'));
@@ -47,24 +45,25 @@
          console.log('Base de datos ONLINE');
      });
 
-
  const server = app.listen(process.env.PORT, () => {
      console.log('Esta escuchando por el puerto' + process.env.PORT);
  })
-
 
  const io = SocketIO(server);
 
  //webSockets
  io.on('connection', (socket) => {
      console.log('new connection', socket.id);
-     socket.on('message', (data) => {
-         //  console.log(data);
+     socket.on('message', (data, callback) => {
          io.sockets.emit('message', data);
+         console.log('mensajes a emitir', data);
+
+         callback;
+
      })
 
-     // socket.on('chat:typing', (data) => {
-     //     console.log(data);
-     //     socket.broadcast.emit('chat:typing', data);
-     // })
+     socket.on('newMessage', (data) => {
+         io.sockets.emit('newMessage', true);
+     })
+
  });

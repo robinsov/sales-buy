@@ -12,6 +12,10 @@ import { Router } from '@angular/router';
 })
 export class TarjetasAnunciosComponent implements OnInit {
 
+  page: number = 1; 
+
+
+
   @Input() anuncios: Anuncio[];
   @Input() tipo: string;
   @Input() termino: string;

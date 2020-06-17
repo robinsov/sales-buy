@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, AfterViewInit, AfterViewChecked, ViewChild, ElementRef, Renderer2, HostListener, NgZone } from "@angular/core";
 import { AnunciosService } from "src/app/services/anuncios.service";
 import { ActivatedRoute } from "@angular/router";
 import { VendedorService } from "src/app/services/vendedor.service";
 import { Vendedor } from "../models/vendedor.model";
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Socket } from "ngx-socket-io";
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-mis-mensajes",
@@ -13,16 +12,17 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./mis-mensajes.component.css"],
 })
 export class MisMensajesComponent implements OnInit {
-  
+
+  @ViewChild('caja', {static: false}) caja : ElementRef;
+  @ViewChild('end', {static: false}) end : ElementRef;
+
   mensaje: any;
   vendedor: Vendedor;
 
   mensajes: any[] = [];
 
-  btnResponder = false;
   btnEnviar = false;
   mensajeAEnviar: string = "";
-  btnContestado = false;
 
   vendedorMensaje: Vendedor;
 
@@ -33,12 +33,15 @@ export class MisMensajesComponent implements OnInit {
     private socket: Socket
   ) {}
 
+
+  
+  
   ngOnInit(): void {
     this.getVendedor();
     this.getMensajeActual();
-  }
 
- 
+  }
+  
 
   getVendedor() {
     this._vendedorServic
@@ -50,11 +53,11 @@ export class MisMensajesComponent implements OnInit {
 
   getMensajeActual() {
     this.activateRoute.params.subscribe((idMensaje) => {
-      this._anuncioService.getMensaje(idMensaje["id"]).subscribe((resp) => {
-        // console.log(resp);
+      this._anuncioService.getMensaje(idMensaje["id"]).subscribe((resp:any) => {
         if (resp) {
           this.mensaje = resp;
           this.anuncioVendedor();
+          
         }
       });
     });
@@ -72,23 +75,36 @@ export class MisMensajesComponent implements OnInit {
     let newMensaje = {
       mensaje: this.mensajeAEnviar,
       usuario: this.vendedorMensaje,
+      leido: false,
     };
 
+    this.socket.emit('message', {
+      data: newMensaje,
+      idMensaje: id
+    });    
 
-    this._anuncioService.updateMensaje(id, newMensaje).subscribe((resp) => {
-      this.btnContestado = true;
-      this.btnResponder = false;
-      this.mensajeAEnviar = "";
-      this.socket.emit('message', newMensaje.mensaje);
-      if (resp) {
+    this._anuncioService.updateMensaje(id, newMensaje).subscribe((respMen) => {
+      this.mensajeAEnviar = '';
+
+      if(respMen){
         this.socket.fromEvent('message').pipe(
-          map( data => data )
-        ).subscribe(resp => {
-          if(resp){
-            this.getMensajeActual();
+          map( data => data)
+        ).subscribe((resp:any) => {
+          this.getMensajeActual();
+          if(resp.data.usuario._id === localStorage.getItem('id')){
+            this._anuncioService.mensajesNuevos.emit(false);
+          }else {
+            this._anuncioService.mensajesNuevos.emit(true);
           }
+          this.irAlFinal();
         });
       }
     });
+
   }
+
+  irAlFinal(){
+    this.end.nativeElement.click();
+  }
+
 }

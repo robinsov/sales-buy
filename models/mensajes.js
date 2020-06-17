@@ -8,6 +8,9 @@ let mensajeSchema = new Schema({
     fecha: {
         type: String
     },
+    leidoPor: {
+        type: String
+    },
     vendedor: {
         type: Schema.Types.ObjectId,
         ref: 'Vendedor'

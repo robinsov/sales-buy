@@ -11,11 +11,11 @@
 
                 <div class="custom-file" (change)="handleFileSelect($event)">
                     <input type="file" name="files" class="custom-file-input" multiple>
-                    <label class="custom-file-label">Choose file</label>
+                    <label class="custom-file-label">Haga Click!</label>
                 </div>
             </div>
         </div>
-        <div class="col" style="margin-button: 40px;">
+        <div class="col-md-8">
             <h3>Carga de Archivos </h3>
             <button [disabled]="cargando" *ngIf="bSoloTexto && source != 'add'" type="button" class="btn btn-success mr-2" (click)="cargarImagenes()">Acutalizar Anuncio</button>
 
@@ -25,10 +25,10 @@
                 Guardar Anuncio
             </button>
             <button *ngIf="!cargando" type="button" class="btn btn-danger" (click)="limpiarArchivos()" [disabled]="">Limpiar archivos</button>
-            <table class="table" [hidden]="archivos.length == 0">
+            <table [hidden]="archivos.length == 0">
                 <thead class=" thead-inverse ">
                     <tr>
-                        <th>Eliminar</th>
+                        <th class="wpeque">Borrar</th>
                         <th>Nombre</th>
                         <th>Tamaño</th>
                         <th>Progreso</th>
@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let archivo of archivos">
-                        <td>
+                        <td class="wpeque">
                             <i class="fa fa-trash pointer" (click)="eliminarImg(archivo)"></i>
                         </td>
 
