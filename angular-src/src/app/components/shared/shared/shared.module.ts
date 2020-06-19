@@ -14,9 +14,8 @@ import { SidebarMensajesComponent } from '../../sidebar-mensajes/sidebar-mensaje
 import { LoginControlDirective } from 'src/app/directives/login-control.directive';
 
 
-import { NgScrollbarModule, NG_SCROLLBAR_OPTIONS } from 'ngx-scrollbar';
 
-import {NgxPaginationModule} from 'ngx-pagination'; 
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -29,10 +28,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
     MisMensajesComponent,
     SidebarMensajesComponent,
     LoginControlDirective,
-    
+
   ],
   imports: [
-    NgScrollbarModule,
     ImagenModule,
     CommonModule,
     RouterModule,

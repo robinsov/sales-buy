@@ -1,28 +1,27 @@
-import { Component, OnInit, Input, AfterViewInit, AfterViewChecked, ViewChild, ElementRef, Renderer2, HostListener, NgZone } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AnunciosService } from "src/app/services/anuncios.service";
 import { ActivatedRoute } from "@angular/router";
 import { VendedorService } from "src/app/services/vendedor.service";
 import { Vendedor } from "../models/vendedor.model";
-import { map, take } from 'rxjs/operators';
-import { Socket } from "ngx-socket-io";
+import { Subscription } from 'rxjs';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: "app-mis-mensajes",
   templateUrl: "./mis-mensajes.component.html",
   styleUrls: ["./mis-mensajes.component.css"],
 })
-export class MisMensajesComponent implements OnInit {
-
-  @ViewChild('caja', {static: false}) caja : ElementRef;
-  @ViewChild('end', {static: false}) end : ElementRef;
+export class MisMensajesComponent implements OnInit  {
 
   mensaje: any;
   vendedor: Vendedor;
-
-  mensajes: any[] = [];
+  mensajesEmit: any[] = [];
 
   btnEnviar = false;
   mensajeAEnviar: string = "";
+  elemento: HTMLElement;
+
+  mensajesSubscription: Subscription;
 
   vendedorMensaje: Vendedor;
 
@@ -30,18 +29,22 @@ export class MisMensajesComponent implements OnInit {
     private _anuncioService: AnunciosService,
     private activateRoute: ActivatedRoute,
     private _vendedorServic: VendedorService,
-    private socket: Socket
+    private chatService:ChatService
   ) {}
 
 
-  
-  
+
   ngOnInit(): void {
     this.getVendedor();
     this.getMensajeActual();
 
+    this.mensajesSubscription = this.chatService.getMessages().subscribe( (msg:any) => {
+      console.log(msg);
+      this.mensajesEmit.push(msg.mensaje);
+      this.scroll();
+
+    })
   }
-  
 
   getVendedor() {
     this._vendedorServic
@@ -51,16 +54,17 @@ export class MisMensajesComponent implements OnInit {
       });
   }
 
-  getMensajeActual() {
-    this.activateRoute.params.subscribe((idMensaje) => {
-      this._anuncioService.getMensaje(idMensaje["id"]).subscribe((resp:any) => {
-        if (resp) {
+  getMensajeActual(){
+      this.activateRoute.params.subscribe((idMensaje) => {
+        this._anuncioService.getMensaje(idMensaje["id"]).subscribe((resp:any) => {
+
           this.mensaje = resp;
+          this.mensajesEmit = [...this.mensaje.mensaje];
           this.anuncioVendedor();
-          
-        }
+
+
+        });
       });
-    });
   }
 
   anuncioVendedor() {
@@ -68,43 +72,42 @@ export class MisMensajesComponent implements OnInit {
       .getVendedor(this.mensaje.anuncio.vendedor)
       .subscribe((resp) => {
         this.vendedor = resp;
+        this.scroll();
       });
   }
 
   responderMensaje(id: string) {
+
+    if(this.mensajeAEnviar.trim().length === 0){
+      return;
+    }
+
     let newMensaje = {
       mensaje: this.mensajeAEnviar,
       usuario: this.vendedorMensaje,
       leido: false,
     };
 
-    this.socket.emit('message', {
-      data: newMensaje,
-      idMensaje: id
-    });    
+    this.chatService.sendMessage(newMensaje)
 
     this._anuncioService.updateMensaje(id, newMensaje).subscribe((respMen) => {
       this.mensajeAEnviar = '';
-
-      if(respMen){
-        this.socket.fromEvent('message').pipe(
-          map( data => data)
-        ).subscribe((resp:any) => {
-          this.getMensajeActual();
-          if(resp.data.usuario._id === localStorage.getItem('id')){
-            this._anuncioService.mensajesNuevos.emit(false);
-          }else {
-            this._anuncioService.mensajesNuevos.emit(true);
-          }
-          this.irAlFinal();
-        });
-      }
     });
 
   }
 
-  irAlFinal(){
-    this.end.nativeElement.click();
+  ngOnDestroy(): void {
+    this.mensajesSubscription.unsubscribe();
   }
+
+  scroll () {
+    this.elemento = document.getElementById('chat-mensajes');
+
+    setTimeout(()=> {
+      this.elemento.scrollTop = this.elemento.scrollHeight;
+    },10 )
+
+  }
+
 
 }

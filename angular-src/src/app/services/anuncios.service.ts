@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { Anuncio } from '../components/models/anuncio.model';
 
 import { map } from 'rxjs/operators';
-import { Socket } from "ngx-socket-io";
 
 
 @Injectable({
@@ -18,7 +17,7 @@ export class AnunciosService {
   mensajesNuevos = new EventEmitter<boolean>();
 
   constructor(private http: HttpClient) {
-                
+
               }
 
   getAnuncios(){
@@ -26,22 +25,22 @@ export class AnunciosService {
       return  resp.anuncios;
     }));
   }
-  
+
   getAnuncio(id: string){
-    
+
     return this.http.get(`${environment.API_URI}/anuncio/${id}`);
   }
 
 
   getMisAnuncios(id:string){
-    
-    return this.http.get(`${environment.API_URI}/misAnuncios/${id}`).pipe( 
+
+    return this.http.get(`${environment.API_URI}/misAnuncios/${id}`).pipe(
       map( resp => {
         return resp;
       })
     )
   }
-  
+
   createAnuncio(anuncio: Anuncio, token:string ){
     let httpHeaders = new HttpHeaders({
       token: token
@@ -61,7 +60,7 @@ export class AnunciosService {
         return resp.imageBD;
     }))
   }
-  
+
   updateAnuncio(anuncio: any, id:string){
 
     return this.http.put(`${environment.API_URI}/anuncio/${id}`, anuncio)
@@ -93,7 +92,7 @@ export class AnunciosService {
       return  resp.likeBorradoBD;
     }))
   }
-  
+
   deleteAnuncio(id: string){
     return this.http.delete(`${environment.API_URI}/anuncio/${id}`);
   }
@@ -124,7 +123,7 @@ export class AnunciosService {
 
   getAnunciosPorCategorias(id:string){
     return this.http.get(`${environment.API_URI}/anunciosCategorias/${id}`);
-    
+
   }
 
 
@@ -184,5 +183,6 @@ export class AnunciosService {
       return  resp.mensajeBorradoBD;
     }))
   }
+
 
 }

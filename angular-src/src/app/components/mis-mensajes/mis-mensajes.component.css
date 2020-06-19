@@ -2,15 +2,16 @@
     height: 50px;
     width: 50px;
 }
-
-ng-scrollbar.scroll-event {
-    --scrollbar-size: 8px;
-    --scrollbar-thumb-color: #38d39f;
-    --scrollbar-hover-size: 12px;
-    --scrollbar-track-color: rgba(0, 0, 0, 0.05);
-    --scrollbar-border-radius: 10px;
-    height: 800px;
-    max-height: 800px;
-    border-radius: 3px;
-    border: 2px solid rgba(0, 0, 0, 0.05);
+#chat-mensajes {
+    height: 600px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-top: 40px;
+    overflow-y: scroll;
+}
+.inputEnviar {
+    margin-top: 20px;
+}
+.mb-10 {
+    margin: 20px 0;
 }

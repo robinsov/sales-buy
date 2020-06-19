@@ -43,7 +43,6 @@
         "karma-jasmine": "~2.0.1",
         "karma-jasmine-html-reporter": "^1.4.2",
         "ngx-pagination": "^5.0.0",
-        "ngx-scrollbar": "^7.2.1-beta.0",
         "ngx-socket-io": "^3.0.1",
         "path": "^0.12.7",
         "protractor": "~5.4.3",

@@ -8,8 +8,10 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PaginasComponent } from './components/anuncios/paginas.component';
 import { SharedModule } from './components/shared/shared/shared.module';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
 
-
+const config: SocketIoConfig = { url: environment.API_URI, options: {} };
 
 
 @NgModule({
@@ -18,18 +20,19 @@ import { SharedModule } from './components/shared/shared/shared.module';
     LoginComponent,
     RegisterComponent,
     PaginasComponent,
-    
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
-    
-    
+
+
   ],
   bootstrap: [AppComponent]
 })
