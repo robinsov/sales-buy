@@ -1,74 +1,64 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { AnunciosService } from 'src/app/services/anuncios.service';
-import { from } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 import { distinct, map  } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 
 
 import { Socket } from "ngx-socket-io";
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-sidebar-mensajes',
   templateUrl: './sidebar-mensajes.component.html',
   styleUrls: ['./sidebar-mensajes.component.css']
 })
-export class SidebarMensajesComponent implements OnInit {
+export class SidebarMensajesComponent implements OnInit, OnDestroy{
 
-  mensajesHp;;
-
-  yo = localStorage.getItem('id');
+  mensajesHp:any;
   mensajes: any[]= [];
-
-  btnResponder = false;
-  btnEnviar = false;
   mensajeAEnviar: string = '';
-  btnContestado = false;
+
+  usuarioEnSession = localStorage.getItem('id');
+
+  notificacion: Subscription;
 
   mensajesEncontrados: any[] = [];
 
-  nuevoMensaje: boolean;
+  mensajeNotificado: any;
 
   constructor(private _anuncioService :AnunciosService,
               private router: Router,
-              private renderer: Renderer2,
-              private socket: Socket) { }
+              private _csService:ChatService) {
+
+  }
+
 
   ngOnInit(): void {
-    this.getAllMensajes();
+    this.getTodosMensajes();
 
-    // this.ubicarMensaje();
-  }
-
-  ubicarMensaje(){
-    this.socket.fromEvent('message').pipe(
-      map( data => data )
-    ).subscribe((resp:any) => {
-      if(resp){
-        console.log(resp);
-        console.log(this.mensajes);
-        this.mensajes.forEach((element, index) => {
-          if(String(element._id ) === String(resp.idMensaje)){
-            // this.mensajeLeido = resp.data.leido;
-            
-          }
-        });
-      }
-    });
+    // this.notificacion = this._csService.getNotificaciones().subscribe((resp:any) => {
+    //   if(resp){
+    //     this._anuncioService.getMensaje(resp.id_mensaje).subscribe( not => {
+    //       console.log(not);
+    //     })
+    //   }
+    // })
   }
 
 
-
-  getAllMensajes(){
+  getTodosMensajes(){
     this.mensajesHp = new EventEmitter
     this._anuncioService.getAllMensajes().subscribe(mensajes => {
+      console.log('hp', mensajes);
 
       mensajes.forEach(element => {
         if(String(element.anuncio.vendedor) === localStorage.getItem('id')){
           this.mensajesEncontrados.push(element)
         }
         element.mensaje.forEach(element2 => {
-    
+
           if(String(element2.usuario._id) === localStorage.getItem('id')){
             this.mensajesEncontrados.push(element);
           }
@@ -86,6 +76,7 @@ export class SidebarMensajesComponent implements OnInit {
       from( r ).pipe(
         distinct( (p:any) => p._id)
         ).subscribe( (resp:any) => {
+          console.log('aqui', resp);
           this.mensajes.push(resp)
     });
     })
@@ -94,16 +85,16 @@ export class SidebarMensajesComponent implements OnInit {
 
   chat(id: string){
 
-    
-    
-    let mensajeYaLeido = {
-      leido: localStorage.getItem('id'),
-    };
+    let payload = {
+      leidoPor: localStorage.getItem('id')
+    }
 
     this._anuncioService
-      .mensajeLeido(id, mensajeYaLeido)
+      .mensajeLeido(id, payload)
       .subscribe(resp => {
+        console.log(resp);
       });
+
 
     this.router.navigate(['/misMensajes',  id]);
 
@@ -113,23 +104,30 @@ export class SidebarMensajesComponent implements OnInit {
     if(termino.length === 0) {
       alert('Digíte un término de busqueda')
       this.mensajes = [];
-      this.getAllMensajes();
-      return; 
+      this.getTodosMensajes();
+      return;
     }
 
     let encontrados: any[] = [];
     console.log(this.mensajes);
 
     this.mensajes.forEach(element => {
-        if(element.vendedor.nombre.toLowerCase().indexOf(termino.toLowerCase()) >= 0 
+        if(element.vendedor.nombre.toLowerCase().indexOf(termino.toLowerCase()) >= 0
           || element.anuncio.tituloAnuncio.toLowerCase().indexOf(termino.toLowerCase()) >= 0 ){
           console.log(element);
           encontrados.push(element);
         }
     });
-    
+
     if(encontrados.length > 0){
       this.mensajes = encontrados;
+    }
+  }
+
+  ngOnDestroy(): void {
+
+    if(this.notificacion){
+      this.notificacion.unsubscribe();
     }
   }
 

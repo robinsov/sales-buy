@@ -14,7 +14,6 @@ export class AnunciosService {
   anunciosPorCategorias : any[];
   imagesSegunAnuncio: any[];
 
-  mensajesNuevos = new EventEmitter<boolean>();
 
   constructor(private http: HttpClient) {
 
@@ -98,16 +97,10 @@ export class AnunciosService {
   }
 
   getImage(imagen: string){
-    // localhost:3000/image/anuncios/5ea8c7c3723fe74328011308-302.png?token=
+
     return this.http.get(`${environment.API_URI}/image/anuncios/${imagen}?token=${localStorage.getItem('token')}`);
   }
 
-  // getImages(idAnuncio: string){
-  //   return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).subscribe( (resp:any) => {
-  //     console.log(resp.imagesAnuncio);
-  //     this.imagesSegunAnuncio = resp.imagesAnuncio;
-  //   });
-  // }
 
   getImages(idAnuncio: string){
     return this.http.get(`${environment.API_URI}/image/${idAnuncio}`).pipe( map (  (resp:any) => {
@@ -146,10 +139,10 @@ export class AnunciosService {
     }))
   }
 
-  mensajeLeido(id:string, mensaje:any){
+  mensajeLeido(id:string, payload: any){
     // console.log(mensaje);
-    return this.http.put(`${environment.API_URI}/mensajeLeido/${id}`, mensaje).pipe( map (  (resp:any) => {
-      return  resp.mensajesBD;
+    return this.http.put(`${environment.API_URI}/mensajeLeido/${id}`, payload).pipe( map (  (resp:any) => {
+      return  resp.mensajeLeido;
     }))
   }
 
@@ -163,7 +156,7 @@ export class AnunciosService {
     return this.http.get(`${environment.API_URI}/mensaje/${id}`).pipe( map (  (resp:any) => {
       return  resp.mensajes
     }))
-  }
+    }
 
   getMensaje(idMensaje: string){
     return this.http.get(`${environment.API_URI}/mensajeGuardado/${idMensaje}`).pipe( map (  (resp:any) => {
@@ -173,6 +166,7 @@ export class AnunciosService {
 
   getAllMensajes(){
     return this.http.get(`${environment.API_URI}/mensaje`).pipe( map (  (resp:any) => {
+      console.log('culo', resp.mensajesBD);
       return  resp.mensajesBD
     }))
   }

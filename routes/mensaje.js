@@ -16,6 +16,8 @@ app.get('/mensaje', (req, res) => {
                 })
             }
 
+            console.log(mensajesBD);
+
             res.json({
                 ok: true,
                 mensajesBD
@@ -124,7 +126,6 @@ app.get('/mensajeAnuncio/:idAnuncio', (req, res) => {
 
 app.put("/mensajeUpdate/:idMensaje", (req, res) => {
     let id = req.params.idMensaje;
-    let mensaje = req.body.mensaje;
 
     Mensajes.findById(id, (err, mensajesBD) => {
         if (err) {
@@ -134,15 +135,23 @@ app.put("/mensajeUpdate/:idMensaje", (req, res) => {
             });
         }
 
+
         if (mensajesBD) {
             mensajesBD.mensaje.push(req.body);
         }
-
         mensajesBD.leido = false;
-        mensajesBD.save();
-        res.json({
-            ok: true,
-            mensajesBD,
+
+        mensajesBD.save((err, mensajesBD) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err,
+                });
+            }
+            res.json({
+                ok: true,
+                mensajesBD,
+            });
         });
     });
 });
@@ -157,6 +166,8 @@ app.put("/mensajeLeido/:idMensaje", (req, res) => {
                 err,
             });
         }
+
+        // console.log(mensajeLeido);
 
         res.json({
             ok: true,

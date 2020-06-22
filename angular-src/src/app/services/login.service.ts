@@ -21,11 +21,11 @@ export class LoginService implements OnInit{
   public changeLoginStatus$ = this.changeLoginStatusSubject.asObservable();
 
   constructor(private http: HttpClient,
-              private router : Router) { 
+              private router : Router) {
   }
 
   ngOnInit(): void {
-    
+
   }
 
 

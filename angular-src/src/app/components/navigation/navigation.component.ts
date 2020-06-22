@@ -1,7 +1,8 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
-import { AnunciosService } from 'src/app/services/anuncios.service';
+import { Subscription } from 'rxjs';
+import { ChatService } from 'src/app/services/chat.service';
 
 
 
@@ -10,22 +11,31 @@ import { AnunciosService } from 'src/app/services/anuncios.service';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
 
   nombreVendedor: string;
   img: string;
   termino: string;
-  
+  notificacion: Subscription;
   id: string
 
   mensajesNuevos= false;
   constructor(private _loginService: LoginService,
-              private _anuncioService: AnunciosService,
+              private _csService: ChatService,
               private router: Router) {
-              this.id = localStorage.getItem('id');    
+              this.id = localStorage.getItem('id');
   }
 
+
   ngOnInit(): void {
+
+  this.notificacion = this._csService.getNotificaciones().subscribe( (noti:any) => {
+    if(noti){
+      this.mensajesNuevos = true;
+    }else{
+      this.mensajesNuevos = false;
+    }
+  })
 
   if(localStorage.getItem('vendedor')){
     this.nombreVendedor = localStorage.getItem('vendedor');
@@ -34,20 +44,17 @@ export class NavigationComponent implements OnInit {
   this._loginService.nombre.subscribe( nombre => {
     this.nombreVendedor = nombre
   })
-  
+
   this._loginService.img.subscribe( img => {
     this.img = img
   })
 
-  this._anuncioService.mensajesNuevos.subscribe( resp => {
-    // console.log(resp);
-    this.mensajesNuevos = resp;
-  })
-}
-  
 
-  logout(){
-    this._loginService.logout();
+}
+
+
+logout(){
+  this._loginService.logout();
   }
 
 
@@ -56,8 +63,8 @@ export class NavigationComponent implements OnInit {
   }
 
   misMensajes(){
+    this.mensajesNuevos = false;
     this.router.navigate(['/sideBarMensajes']);
-    this._anuncioService.mensajesNuevos.emit(false);
   }
 
   search(){
@@ -70,6 +77,10 @@ export class NavigationComponent implements OnInit {
     }
 
 
+  }
+
+  ngOnDestroy(): void {
+    this.notificacion.unsubscribe();
   }
 
 }

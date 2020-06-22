@@ -11,6 +11,8 @@ import { Vendedor } from '../models/vendedor.model';
 
 import { Socket } from "ngx-socket-io";
 import Swal from 'sweetalert2';
+import { WebsocketService } from 'src/app/services/websocket.service';
+import { ChatService } from 'src/app/services/chat.service';
 @Component({
   selector: 'app-detalles-anuncio',
   templateUrl: './detalles-anuncio.component.html',
@@ -34,17 +36,18 @@ export class DetallesAnuncioComponent implements OnInit {
   anuncioPropio = false;
 
   vendedorMensaje: Vendedor
-  
+
   constructor(private _anuncioService: AnunciosService,
               private _vendedorService: VendedorService,
+              private _csService: ChatService,
               private router: Router,
               private socket: Socket,
               private activateRouter: ActivatedRoute) {
-                
+
               }
 
   ngOnInit(): void {
-    
+
     this.getVendedor()
 
     this.activateRouter.params.subscribe(  resp => {
@@ -55,19 +58,19 @@ export class DetallesAnuncioComponent implements OnInit {
       this.idAnuncio =   resp['id'];
       this.getAnunci(resp['id']);
     })
-    
+
     this._anuncioService.getImages(this.idAnuncio).subscribe(  (resp:any) => {
       this.images =   resp;
     });
 
-    
+
     this._anuncioService.getlikeByIdanuncio(this.idAnuncio).subscribe( resp => {
       this.countLikes = resp.length
       this.likesObtenidos = resp;
       this.miLike();
     });
 
-  
+
   }
 
   getVendedor(){
@@ -95,13 +98,13 @@ export class DetallesAnuncioComponent implements OnInit {
         }
       }))
       .subscribe();
-      
+
   }
 
   likes(){
     let newLike : ILike;
     this.likeAnuncio = !this.likeAnuncio;
-    
+
     if(this.likeAnuncio){
       newLike = {
         anuncio: this.idAnuncio,
@@ -113,7 +116,7 @@ export class DetallesAnuncioComponent implements OnInit {
       });
     }else {
       this.disLike();
-      
+
     }
   }
 
@@ -147,7 +150,7 @@ export class DetallesAnuncioComponent implements OnInit {
             this.existeChat = true;
             return
           }
-        } 
+        }
           this.existeChat = false;
           this.dejarMensaje = true;
           return
@@ -156,7 +159,7 @@ export class DetallesAnuncioComponent implements OnInit {
         this.dejarMensaje = true;
       }
     })
-    
+
   }
 
   enviarMensaje(){
@@ -165,7 +168,7 @@ export class DetallesAnuncioComponent implements OnInit {
       mensaje: {
         mensaje: this.mensaje,
         usuario: this.vendedorMensaje,
-        leido: false,
+        leidoPor: localStorage.getItem('id'),
       },
       anuncio: this.idAnuncio,
       vendedor: this.vendedorMensaje
@@ -174,21 +177,15 @@ export class DetallesAnuncioComponent implements OnInit {
     if(!this.existeChat){
       this.envioMensaje(newMessage);
     }
-    
+
   }
 
   envioMensaje(newMessage){
+    this._csService.sendNotificacion(newMessage);
+
     this._anuncioService.newMensaje(newMessage).subscribe( resp => {
-      this.socket.emit('newMessage', 'nuevoMensaje');
       this.mensaje = '';
       this.dejarMensaje = false;
-      this.socket.fromEvent('newMessage').pipe(
-        map( data => data )
-      ).subscribe((resp:boolean) => {
-        if(resp){
-          this._anuncioService.mensajesNuevos.emit(resp);
-        }
-      });
     })
 
   }
@@ -205,7 +202,7 @@ export class DetallesAnuncioComponent implements OnInit {
     if( this.anuncio.vendedor['_id'] === localStorage.getItem('id')  ){
       this.anuncioPropio = true;
     }
- 
+
   }
 
   navegar(){
@@ -215,8 +212,8 @@ export class DetallesAnuncioComponent implements OnInit {
       this.router.navigate(['/anuncios', 'nav'])
 
     }
-    
+
   }
 
-  
+
 }

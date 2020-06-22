@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AnunciosService } from "src/app/services/anuncios.service";
 import { ActivatedRoute } from "@angular/router";
 import { VendedorService } from "src/app/services/vendedor.service";
@@ -11,7 +11,7 @@ import { ChatService } from 'src/app/services/chat.service';
   templateUrl: "./mis-mensajes.component.html",
   styleUrls: ["./mis-mensajes.component.css"],
 })
-export class MisMensajesComponent implements OnInit  {
+export class MisMensajesComponent implements OnInit, OnDestroy {
 
   mensaje: any;
   vendedor: Vendedor;
@@ -38,9 +38,9 @@ export class MisMensajesComponent implements OnInit  {
     this.getVendedor();
     this.getMensajeActual();
 
-    this.mensajesSubscription = this.chatService.getMessages().subscribe( (msg:any) => {
-      console.log(msg);
-      this.mensajesEmit.push(msg.mensaje);
+    this.mensajesSubscription = this.chatService.getNotificaciones().subscribe( (msg:any) => {
+      this.mensajesEmit.push(msg);
+      // console.log(msg);
       this.scroll();
 
     })
@@ -61,7 +61,6 @@ export class MisMensajesComponent implements OnInit  {
           this.mensaje = resp;
           this.mensajesEmit = [...this.mensaje.mensaje];
           this.anuncioVendedor();
-
 
         });
       });
@@ -85,10 +84,13 @@ export class MisMensajesComponent implements OnInit  {
     let newMensaje = {
       mensaje: this.mensajeAEnviar,
       usuario: this.vendedorMensaje,
-      leido: false,
+      id_mensaje: id,
+      leidoPor: localStorage.getItem('id'),
     };
 
-    this.chatService.sendMessage(newMensaje)
+
+    // this.chatService.sendMessage(newMensaje)
+    this.chatService.sendNotificacion(newMensaje);
 
     this._anuncioService.updateMensaje(id, newMensaje).subscribe((respMen) => {
       this.mensajeAEnviar = '';

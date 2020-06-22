@@ -7,16 +7,24 @@ import { WebsocketService } from './websocket.service';
 export class ChatService {
 
   constructor(public wsService: WebsocketService ) { }
-  sendMessage(mensaje: any){
-    const payload = {
-      mensaje
-    };
 
-  this.wsService.emit('message', payload);
+
+  sendMessage(mensaje: any){
+  this.wsService.emit('message', mensaje);
   }
 
+  sendNotificacion(notificacion: any){
+  this.wsService.emit('newMessage', notificacion);
+  }
 
   getMessages(){
     return this.wsService.listen('message');
   }
+
+  getNotificaciones(){
+    return this.wsService.listen('newMessage');
+  }
+
+
+
 }

@@ -53,17 +53,16 @@
 
  //webSockets
  io.on('connection', (socket) => {
-     console.log('new connection', socket.id);
+     //  console.log('new connection', socket.id);
 
      socket.on('message', (data) => {
-
          io.emit('message', data);
-         console.log('mensajes a emitir', data);
 
      })
 
-     socket.on('newMessage', (data) => {
-         socket.broadcast.emit('newMessage', true);
+     socket.on('newMessage', data => {
+         socket.broadcast.emit('newMessage', data);
+
      })
 
  });
